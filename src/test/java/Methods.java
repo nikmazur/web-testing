@@ -9,8 +9,10 @@ import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class Methods {
 
@@ -20,8 +22,8 @@ public class Methods {
 
     @BeforeSuite
     public void setWebdriver() {
-        File currentDir = new File("");
-        projPath = currentDir.getAbsolutePath();
+        File cDir = new File("");
+        projPath = cDir.getAbsolutePath();
 
         FirefoxOptions options = new FirefoxOptions();
         options.setProfile(setOptions());
@@ -61,7 +63,7 @@ public class Methods {
         return prof;
     }
 
-    public void screen(final String tName) {
+    public void screen(String tName) {
         try {
             String time = new SimpleDateFormat("ddMMyy_HHmmss_").format(new Date());
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -70,6 +72,12 @@ public class Methods {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String randPass() {
+        byte[] array = new byte[8];
+        new Random().nextBytes(array);
+        return new String(array, Charset.forName("UTF-8"));
     }
 
     @AfterSuite
