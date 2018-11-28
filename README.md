@@ -5,9 +5,13 @@ For testing I chose 2 different websites:
 
 https://the-internet.herokuapp.com/
 
+![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/theinternet.PNG "the-internet")
+
 This website consists of separate pages with various web elements designed for running simple tests (e.g. working with logins, drop-down lists, downloading files). It’s useful for demonstrating basic manipulations with content.
 
 https://www.phptravels.net/admin
+
+![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/phptravels.PNG "PHP Travels Admin")
 
 (Login & pass: admin@phptravels.com, demoadmin)
 
