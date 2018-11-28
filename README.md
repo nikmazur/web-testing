@@ -10,4 +10,5 @@ This website consists of separate pages with various web elements designed for r
 https://www.phptravels.net/admin
 
 (Login & pass: admin@phptravels.com, demoadmin)
+
 A website emulating an administrator dashboard which allows to manipulate settings and content of a tourism services portal - phptravels.net. This a demo website, and all content & settings are automatically restored every 10 minutes, which allows us to freely edit any data. The tests are mostly aimed at checking basic functions (e.g. logging in, downloading files, changing settings) and manipulating content (adding, editing, deleting).
