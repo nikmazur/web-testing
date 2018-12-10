@@ -19,15 +19,15 @@ public class Methods {
 
     protected static WebDriver driver;
     protected static WebDriverWait wait;
-    protected static String projPath;
+    private static String projPath;
     protected static Robot rob;
 
-    /*This method is called every time any test is ran (based on the @BeforeSuite tag).
-    It performs preliminary steps for setting up the webdriver and other objects.*/
+    /**This method is called every time any test is ran (based on the @BeforeSuite tag).
+     * It performs preliminary steps for setting up the webdriver and other objects.*/
     @BeforeSuite
-    public void setWebdriver() {
+    public void setWebdriver() throws AWTException {
         //This allows us to determine the path where the project directory is located in the file system.
-        //Will be used later for saving files.
+        //Required for Firefox profile settings (download location).
         File cDir = new File("");
         projPath = cDir.getAbsolutePath();
 
@@ -42,18 +42,10 @@ public class Methods {
         wait=new WebDriverWait(driver, 10);
 
         //Java robot for emulating keypresses from the keyboard
-        try {
-            rob = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
+        rob = new Robot();
     }
 
-    public static void clickXpath(String path) {
-        WebElement elem = driver.findElement(By.xpath(path));
-        elem.click();
-    }
-
+    //For inputting text to fields
     public static void enterXpath(String input, String path) {
         WebElement elem = driver.findElement(By.xpath(path));
         elem.clear();
@@ -70,18 +62,18 @@ public class Methods {
     }
 
     //Profile for Firefox with settings which are needed for downloading files.
-    //Sets Firefox to download to a specified dir without any prompts.
+    //Sets Firefox to download to a specified directory without prompts.
     private FirefoxProfile setOptions() {
         FirefoxProfile prof = new FirefoxProfile();
         prof.setPreference("browser.helperApps.neverAsk.saveToDisk" , "application/octet-stream;");
         prof.setPreference("browser.helperApps.alwaysAsk.force", false);
         prof.setPreference("browser.download.manager.showWhenStarting",false);
         prof.setPreference("browser.download.folderList", 2);
-        prof.setPreference("browser.download.dir", projPath + "\\bin\\download");
+        prof.setPreference("browser.download.dir", projPath + "bin\\download");
         return prof;
     }
 
-    //For taking and saving screenshots to project dir at the end of each test.
+    //For taking and saving screenshots to project directory at the end of each test.
     //Takes the name of the test as an argument.
     public void screen(final String tName) {
         try {
@@ -98,16 +90,15 @@ public class Methods {
     }
 
     //Generates random 8 char passwords
-    public String randPass() {
-        byte[] array = new byte[8];
-        new Random().nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
-    }
+//    public String randPass() {
+//        byte[] array = new byte[8];
+//        new Random().nextBytes(array);
+//        return new String(array, Charset.forName("UTF-8"));
+//    }
 
-    //Called after all tests are ran.
-    //Closes the Firefox browser window and quits the webdriver
+    //Called after all tests are ran. Quits webdriver
     @AfterSuite
     public void driverQuit() {
-//        driver.quit();
+        driver.quit();
     }
 }

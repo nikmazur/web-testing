@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -14,7 +15,7 @@ import static org.testng.Assert.assertNotEquals;
 public class PHPTravelsTests extends Methods {
 
     //Login to the dashboard.
-    //This test is ran first, and all subsequent tests are dependant on it.
+    //This test is ran first, subsequent tests are dependant on it.
     @Test
     public void login() {
         //Open the dashboard page where we are required to login first
@@ -77,14 +78,15 @@ public class PHPTravelsTests extends Methods {
     @Test (priority = 3, dependsOnMethods = "login")
     public void addCustomer() {
         driver.get("https://www.phptravels.net/admin/accounts/customers/add");
-        //Generate random pass for account
-        final String rPass = randPass();
+
+        //Generate random pass for account using Apache common utils
+        final String RPASS = RandomStringUtils.randomAlphanumeric(8);
 
         //Fill in name, email and pass
         enterXpath("John", "//*[@id=\"content\"]/form/div/div[2]/div/div[1]/div/input");
         enterXpath("Smith", "//*[@id=\"content\"]/form/div/div[2]/div/div[2]/div/input");
         enterXpath("mail@test.com", "//*[@id=\"content\"]/form/div/div[2]/div/div[3]/div/input");
-        enterXpath(rPass, "//*[@id=\"content\"]/form/div/div[2]/div/div[4]/div/input");
+        enterXpath(RPASS, "//*[@id=\"content\"]/form/div/div[2]/div/div[4]/div/input");
 
         //Select country by clicking on the input field.
         //Type, wait for search results and hit Enter to submit
@@ -101,7 +103,7 @@ public class PHPTravelsTests extends Methods {
         //Go to customers login page, try to log in under the created account
         driver.get("https://www.phptravels.net/login");
         enterXpath("mail@test.com", "/html/body/div[5]/div[1]/div[1]/form/div[1]/div[5]/div/div[1]/input");
-        enterXpath(rPass, "/html/body/div[5]/div[1]/div[1]/form/div[1]/div[5]/div/div[2]/input");
+        enterXpath(RPASS, "/html/body/div[5]/div[1]/div[1]/form/div[1]/div[5]/div/div[2]/input");
         driver.findElement(By.xpath("/html/body/div[5]/div[1]/div[1]/form/button")).click();
 
         //Wait until we are redirected to the customer's personal page, assert the greeting text
@@ -140,6 +142,7 @@ public class PHPTravelsTests extends Methods {
     @Test (priority = 5, dependsOnMethods = "login")
     public void deleteHotel() {
         driver.get("https://www.phptravels.net/admin/hotels");
+
         //Address of the table where hotels are listed
         final String tAddr =
                 "//*[@id=\"content\"]/div/div[2]/div/div/div[1]/div[2]/table/tbody/tr";
@@ -179,7 +182,7 @@ public class PHPTravelsTests extends Methods {
         screen("downloadCSV");
 
         //Set full path of the downloaded file, assert it exists, and afterwards delete it
-        File carsCSV = new File(projPath + "\\bin\\download\\Pt_Cars.csv");
+        File carsCSV = new File("bin\\download\\Pt_Cars.csv");
         assert(carsCSV.exists());
         carsCSV.delete();
     }
@@ -238,7 +241,7 @@ public class PHPTravelsTests extends Methods {
         //Enter random password
         WebElement pass = driver.findElement(By.name("password"));
         wait.until(ExpectedConditions.elementToBeClickable(pass));
-        pass.sendKeys(randPass());
+        pass.sendKeys(RandomStringUtils.randomAlphanumeric(8));
 
         //Submit, wait for the invalid credentials warning
         driver.findElement(By.xpath("/html/body/div/form[1]/button")).click();

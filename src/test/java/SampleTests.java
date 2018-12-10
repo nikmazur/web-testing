@@ -15,14 +15,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static org.testng.Assert.assertEquals;
 
+@Test
 public class SampleTests extends Methods {
 
-    /*Test login page with the text fields in an alert popup.
-    This test presents an interesting case when we have a separate popup JavaScript window where
-    we have to navigate to 2 separate fields and fill them with data. In this case I used a Robot
-    for navigation and the system clipboard for storing & pasting data to the 2nd field.*/
+    /**Test login page with the text fields in an alert popup.
+     * This test presents an interesting case when we have a separate popup JavaScript window where
+     * we have to navigate to 2 separate fields and fill them with data. In this case I used a Robot
+     * for navigation and the system clipboard for storing & pasting data to the 2nd field.*/
     @Test
-    public void login() {
+    public void testLogin() {
         //Open required page
         driver.get("https://the-internet.herokuapp.com/basic_auth");
 
@@ -51,8 +52,7 @@ public class SampleTests extends Methods {
     }
 
     //Checkbox test. Switch state & assert
-    @Test
-    public void checkboxes() {
+    public void testCheckboxes() {
         driver.get("https://the-internet.herokuapp.com/checkboxes");
 
         //Locate checkboxes by xpath
@@ -70,8 +70,7 @@ public class SampleTests extends Methods {
     }
 
     //Selecting an option from a drop-down list
-    @Test
-    public void selectFromList() {
+    public void testList() {
         driver.get("https://the-internet.herokuapp.com/dropdown");
 
         //Create list object, select 2nd option
@@ -80,14 +79,13 @@ public class SampleTests extends Methods {
 
         //Get the currently selected option, check it's text value
         WebElement option = list.getFirstSelectedOption();
-        screen("selectFromList");
+        screen("list");
         assertEquals("Option 2", option.getText());
     }
 
     //Test for checking keyboard presses.
     //The page prints the last pressed key on the keyboard.
-    @Test
-    public void keyboardCheck() {
+    public void testKeyboard() {
         driver.get("https://the-internet.herokuapp.com/key_presses");
 
         //Press Pause, retrieve text and check
@@ -97,17 +95,16 @@ public class SampleTests extends Methods {
 
         //Same, but with NumPad6 key
         rob.keyPress(KeyEvent.VK_NUMPAD6);
-        screen("keyboardCheck");
+        screen("keyboard");
         assertEquals("You entered: NUMPAD6", res.getText());
     }
 
-    //Test for handling multiple browser windows.
-    @Test
-    public void newWind() {
+    //Test for handling multiple browser windows
+    public void testNewWind() {
         driver.get("https://the-internet.herokuapp.com/windows");
 
         //Click on the link for opening a new window, allow 0.5s for it to open
-        clickXpath("/html/body/div[2]/div/div/a");
+        driver.findElement(By.xpath("/html/body/div[2]/div/div/a")).click();
         sleep(500);
 
         //Save the handle of the main window before switching (we will need this to return)
@@ -116,26 +113,27 @@ public class SampleTests extends Methods {
         //Cycle through open windows in order to switch to the 2nd (new) one
         for(String winHandle : driver.getWindowHandles())
             driver.switchTo().window(winHandle);
+        sleep(300);
 
         //Check title and close 2nd window
         assertEquals("New Window", driver.getTitle());
         screen("newWind");
         driver.close();
 
-        //Swithc back to main using the handle
+        //Switch back to main using the handle
         driver.switchTo().window(mainWind);
     }
 
     //Download a txt file from a page to location dir.
     //Requires to be logged in, so the test depends on the login test.
-    @Test (dependsOnMethods = "login")
-    public void fileDL() {
+    @Test (dependsOnMethods = "testLogin")
+    public void testFileDL() {
         driver.get("https://the-internet.herokuapp.com/download_secure");
         //Find the download link by text, click on it
         driver.findElement(By.partialLinkText("some-file.txt")).click();
 
         //Assert file is present in the project directory (exists method), then delete it
-        File doc = new File(projPath + "\\bin\\download\\some-file.txt");
+        File doc = new File("bin\\download\\some-file.txt");
         screen("fileDL");
         assert(doc.exists());
         doc.delete();
@@ -143,8 +141,7 @@ public class SampleTests extends Methods {
 
     //Slider element test.
     //We move the slider by keyboard arrow presses and check the resulting values.
-    @Test
-    public void sliderVal() {
+    public void testSliderVal() {
         driver.get("https://the-internet.herokuapp.com/horizontal_slider");
 
         //Locate the slider element and the value field
@@ -168,8 +165,7 @@ public class SampleTests extends Methods {
     }
 
     //Testing large table with data (50 x 50) by counting rows and columns, and selecting a random cell
-    @Test
-    public void dataTable() {
+    public void testTable() {
         driver.get("https://the-internet.herokuapp.com/large");
 
         //Retrieve rows and columns to lists, assert size
@@ -186,7 +182,7 @@ public class SampleTests extends Methods {
         //Locate random cell, assert that it's text is equal
         WebElement rCell = driver.findElement(By.cssSelector
                 (".row-" + rRow + " > td:nth-child(" + rCol + ")"));
-        screen("dataTable");
+        screen("table");
         assertEquals(rRow + "." + rCol, rCell.getText());
     }
 }
