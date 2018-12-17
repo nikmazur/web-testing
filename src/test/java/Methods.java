@@ -19,7 +19,7 @@ public class Methods {
 
     protected static WebDriver driver;
     protected static WebDriverWait wait;
-    private static String projPath;
+    protected static String projPath;
     protected static Robot rob;
 
     /**This method is called every time any test is ran (based on the @BeforeSuite tag).
@@ -36,7 +36,7 @@ public class Methods {
         options.setProfile(setOptions());
 
         //Launch geckodriver, maximize window, configure wait object
-        System.setProperty("webdriver.gecko.driver", "bin/geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "bin\\geckodriver.exe");
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         wait=new WebDriverWait(driver, 10);
@@ -69,7 +69,7 @@ public class Methods {
         prof.setPreference("browser.helperApps.alwaysAsk.force", false);
         prof.setPreference("browser.download.manager.showWhenStarting",false);
         prof.setPreference("browser.download.folderList", 2);
-        prof.setPreference("browser.download.dir", projPath + "bin\\download");
+        prof.setPreference("browser.download.dir", projPath + "\\bin\\download");
         return prof;
     }
 
@@ -88,13 +88,6 @@ public class Methods {
             e.printStackTrace();
         }
     }
-
-    //Generates random 8 char passwords
-//    public String randPass() {
-//        byte[] array = new byte[8];
-//        new Random().nextBytes(array);
-//        return new String(array, Charset.forName("UTF-8"));
-//    }
 
     //Called after all tests are ran. Quits webdriver
     @AfterSuite

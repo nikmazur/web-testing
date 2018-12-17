@@ -1,7 +1,9 @@
+import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
@@ -11,7 +13,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.testng.Assert.assertEquals;
 
@@ -29,26 +30,31 @@ public class SampleTests extends Methods {
 
         //Switch to alert with input fields
         Alert alert = driver.switchTo().alert();
-        final String adm = "admin";
+        final String ADM = "admin";
 
         //Fill in the login, press Tab to cycle to 2nd field
-        alert.sendKeys(adm);
+        alert.sendKeys(ADM);
         rob.keyPress(KeyEvent.VK_TAB);
 
         //We take the string with out password and place it in the system clipboard
-        StringSelection stringSelection = new StringSelection(adm);
+        StringSelection stringSelection = new StringSelection(ADM);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
 
-        //Make the robot press Ctrl + V to Paste the string
+        //Make the robot press Ctrl + V to Paste the string and submit
         rob.keyPress(KeyEvent.VK_CONTROL);
         rob.keyPress(KeyEvent.VK_V);
         rob.keyRelease(KeyEvent.VK_V);
         rob.keyRelease(KeyEvent.VK_CONTROL);
-
-        //Take screenshot and submit
-        screen("login");
         alert.accept();
+
+        //Wait until the greeting text is visible, save & assert
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content")));
+        WebElement text = driver.findElement(By.id("content"));
+        screen("login");
+        final String EXP = "Basic Auth\n" +
+                "Congratulations! You must have the proper credentials.";
+        assertEquals(EXP, text.getText());
     }
 
     //Checkbox test. Switch state & assert
@@ -133,7 +139,7 @@ public class SampleTests extends Methods {
         driver.findElement(By.partialLinkText("some-file.txt")).click();
 
         //Assert file is present in the project directory (exists method), then delete it
-        File doc = new File("bin\\download\\some-file.txt");
+        File doc = new File(projPath + "\\bin\\download\\some-file.txt");
         screen("fileDL");
         assert(doc.exists());
         doc.delete();
@@ -164,7 +170,7 @@ public class SampleTests extends Methods {
         assertEquals("1.5", value.getText());
     }
 
-    //Testing large table with data (50 x 50) by counting rows and columns, and selecting a random cell
+    //Testing large table with data (50 x 50 cells) by counting rows and columns, and selecting a random cell
     public void testTable() {
         driver.get("https://the-internet.herokuapp.com/large");
 
@@ -175,14 +181,14 @@ public class SampleTests extends Methods {
         //The 51st row is a header with titles
         assertEquals(51, rows.size());
 
-        //Randomly generate 2 numbers between 1 - 50
-        final int rRow = ThreadLocalRandom.current().nextInt(1, 51);
-        final int rCol = ThreadLocalRandom.current().nextInt(1, 51);
+        //Generate 2 random numbers between 1 - 50
+        final int RROW = RandomUtils.nextInt(1, 51);
+        final int RCOL = RandomUtils.nextInt(1, 51);
 
-        //Locate random cell, assert that it's text is equal
+        //Locate random cell using numbers, assert that its text is equal
         WebElement rCell = driver.findElement(By.cssSelector
-                (".row-" + rRow + " > td:nth-child(" + rCol + ")"));
+                (".row-" + RROW + " > td:nth-child(" + RCOL + ")"));
         screen("table");
-        assertEquals(rRow + "." + rCol, rCell.getText());
+        assertEquals(RROW + "." + RCOL, rCell.getText());
     }
 }
