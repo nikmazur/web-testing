@@ -36,7 +36,7 @@ public class SampleTests extends Methods {
         alert.sendKeys(ADM);
         rob.keyPress(KeyEvent.VK_TAB);
 
-        //We take the string with out password and place it in the system clipboard
+        //We take the string with our password (same as login) and place it in the system clipboard
         StringSelection stringSelection = new StringSelection(ADM);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
@@ -48,7 +48,7 @@ public class SampleTests extends Methods {
         rob.keyRelease(KeyEvent.VK_CONTROL);
         alert.accept();
 
-        //Wait until the greeting text is visible, save & assert
+        //Wait until the greeting text is visible, screenshot & assert
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content")));
         WebElement text = driver.findElement(By.id("content"));
         screen("login");
@@ -138,10 +138,11 @@ public class SampleTests extends Methods {
         //Find the download link by text, click on it
         driver.findElement(By.partialLinkText("some-file.txt")).click();
 
-        //Assert file is present in the project directory (exists method), then delete it
+        //Assert file is present in the project directory (exists method)
         File doc = new File(projPath + "\\bin\\download\\some-file.txt");
         screen("fileDL");
         assert(doc.exists());
+        //Delete the downloaded file (allows to re-run the test again)
         doc.delete();
     }
 
@@ -157,7 +158,7 @@ public class SampleTests extends Methods {
         //Assert that initial value is 0
         assertEquals("0", value.getText());
 
-        //Move right, assert new value
+        //Move right, assert new value. Each move adds 0.5.
         slider.sendKeys(Keys.ARROW_RIGHT);
         sleep(200);
         assertEquals("0.5", value.getText());
@@ -170,7 +171,7 @@ public class SampleTests extends Methods {
         assertEquals("1.5", value.getText());
     }
 
-    //Testing large table with data (50 x 50 cells) by counting rows and columns, and selecting a random cell
+    //Testing large table with data (50 x 50 cells) by counting rows and columns, and selecting 10 random cells
     public void testTable() {
         driver.get("https://the-internet.herokuapp.com/large");
 
@@ -178,17 +179,19 @@ public class SampleTests extends Methods {
         List<WebElement> columns = driver.findElements(By.cssSelector("#large-table th"));
         List<WebElement> rows = driver.findElements(By.cssSelector("#large-table tr"));
         assertEquals(50, columns.size());
-        //The 51st row is a header with titles
+        //Size + 1 for rows, the 51st row is a header with titles
         assertEquals(51, rows.size());
-
-        //Generate 2 random numbers between 1 - 50
-        final int RROW = RandomUtils.nextInt(1, 51);
-        final int RCOL = RandomUtils.nextInt(1, 51);
-
-        //Locate random cell using numbers, assert that its text is equal
-        WebElement rCell = driver.findElement(By.cssSelector
-                (".row-" + RROW + " > td:nth-child(" + RCOL + ")"));
         screen("table");
-        assertEquals(RROW + "." + RCOL, rCell.getText());
+
+        //Locate 10 cells using random numbers, assert that the cell text is equal to numbers each time
+        for(int i = 0; i < 10; i++) {
+            //Generating 2 random numbers between 1 - 50
+            final int RROW = RandomUtils.nextInt(1, 51);
+            final int RCOL = RandomUtils.nextInt(1, 51);
+
+            WebElement rCell = driver.findElement(By.cssSelector
+                    (".row-" + RROW + " > td:nth-child(" + RCOL + ")"));
+            assertEquals(RROW + "." + RCOL, rCell.getText());
+        }
     }
 }
