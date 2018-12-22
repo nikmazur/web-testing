@@ -5,14 +5,12 @@ For testing I chose 2 different websites:
 
 https://the-internet.herokuapp.com/
 
-![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/theinternet.PNG "the-internet")
+![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/theinternet.png "Dave Haeffner’s Practice Site")
 
 This website consists of separate pages with various web elements designed for running simple tests (e.g. working with logins, drop-down lists, downloading files). It’s useful for demonstrating basic manipulations with content.
 
-https://www.phptravels.net/admin
+https://www.seleniumeasy.com/test/
 
-![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/phptravels.PNG "PHP Travels Admin")
+![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/seleasy.png "Selenium Easy")
 
-(Login & pass: admin@phptravels.com, demoadmin)
-
-A website emulating an administrator dashboard which allows to manipulate settings and content of a tourism services portal - phptravels.net. This a demo website, and all content & settings are automatically restored every 10 minutes, which allows us to freely edit any data. The tests are mostly aimed at checking basic functions (e.g. logging in, downloading files, changing settings) and manipulating content (adding, editing, deleting).
+Selenium Easy is a website with various automation tutorials. It has a seperate section with diffrent widgets (calendar, intervactive tables, pop-up messages and JavaScript windows) for practicing selenium tests. Provides a nice addition to the previous site for testing various scenarios. 
