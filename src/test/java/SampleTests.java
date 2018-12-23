@@ -111,23 +111,24 @@ public class SampleTests extends Methods {
 
         //Click on the link for opening a new window, allow 0.5s for it to open
         driver.findElement(By.xpath("/html/body/div[2]/div/div/a")).click();
-        sleep(500);
+
+        //Wait until new window is opened (expecting 2 windows)
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
 
         //Save the handle of the main window before switching (we will need this to return)
-        final String mainWind = driver.getWindowHandle();
+        final String MAINWIND = driver.getWindowHandle();
 
         //Cycle through open windows in order to switch to the 2nd (new) one
         for(String winHandle : driver.getWindowHandles())
             driver.switchTo().window(winHandle);
-        sleep(300);
 
         //Check title and close 2nd window
         assertEquals("New Window", driver.getTitle());
         screen("newWind");
         driver.close();
 
-        //Switch back to main using the handle
-        driver.switchTo().window(mainWind);
+        //Switch back to main using saved handle
+        driver.switchTo().window(MAINWIND);
     }
 
     //Download a txt file from a page to location dir.
@@ -160,13 +161,11 @@ public class SampleTests extends Methods {
 
         //Move right, assert new value. Each move adds 0.5.
         slider.sendKeys(Keys.ARROW_RIGHT);
-        sleep(200);
         assertEquals("0.5", value.getText());
 
         //Move right x2, assert new value
         slider.sendKeys(Keys.ARROW_RIGHT);
         slider.sendKeys(Keys.ARROW_RIGHT);
-        sleep(200);
         screen("sliderVal");
         assertEquals("1.5", value.getText());
     }

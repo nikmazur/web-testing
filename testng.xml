@@ -4,6 +4,7 @@
     <test name="Test Web">
     <classes>
         <class name="SampleTests"/>
+        <class name="SelEasyTests"/>
     </classes>
     </test>
 </suite>
