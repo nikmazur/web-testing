@@ -1,7 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,10 +16,9 @@ import static org.testng.Assert.assertEquals;
 
 public class SelEasyTests extends Methods {
 
-
     //Check simple input field with random text, which prints it back
     @Test
-    public void testInputText() {
+    public void inputText() {
         //Open URL
         driver.get("https://www.seleniumeasy.com/test/basic-first-form-demo.html");
 
@@ -36,14 +34,14 @@ public class SelEasyTests extends Methods {
         //Locate the element which prints the submitted text
         WebElement result = driver.findElement(By.cssSelector("#display"));
         //Take screenshot
-        screen("testInputText");
+        screen("inputText");
         //Check result
         assertEquals(result.getText(), TEXT);
     }
 
     //Check input form by submitting random text
     @Test
-    public void testInputForm() {
+    public void inputForm() {
         driver.get("https://www.seleniumeasy.com/test/ajax-form-submit-demo.html");
 
         //Locate name field, send random text
@@ -61,12 +59,12 @@ public class SelEasyTests extends Methods {
 
         //Wait until the form is submitted (success message will be displayed)
         wait.until(ExpectedConditions.textToBe(By.id("submit-control"), "Form submited Successfully!"));
-        screen("testInputForm");
+        screen("inputForm");
     }
 
     //Check the calendar widget by selecting a random date from the last 3 years
     @Test
-    public void testDate() {
+    public void randCalendarDate() {
         driver.get("https://www.seleniumeasy.com/test/bootstrap-date-picker-demo.html");
 
         //Generate random number of days to go back (from 1 to 1095)
@@ -85,13 +83,13 @@ public class SelEasyTests extends Methods {
          * Interesting case where the text is stored as a web element attribute.
          * Retrieve the attribute to a string, and then check for match.*/
         String nDate = selDate.getAttribute("value");
-        screen("testDate");
+        screen("randCalendarDate");
         assertEquals(nDate, DATE);
     }
 
     //Check the search function in a table
     @Test
-    public void testFilterTable() {
+    public void filterTable() {
         driver.get("https://www.seleniumeasy.com/test/table-search-filter-demo.html");
 
         //Send the text match we are looking for (Assignee: John)
@@ -111,14 +109,14 @@ public class SelEasyTests extends Methods {
                 count++;
         }
 
-        screen("testFilterTable");
+        screen("filterTable");
         //There are 2 Assignees with 'John' as part of their names
         assertEquals(count, 2);
     }
 
     //Initiate the fake download process (takes about 12 seconds)
     @Test
-    public void testProgress() {
+    public void progressMsg() {
         driver.get("https://www.seleniumeasy.com/test/jquery-download-progress-bar-demo.html");
 
         //Hit download
@@ -126,13 +124,13 @@ public class SelEasyTests extends Methods {
 
         //Wait until the 'Complete!' dialog is shown
         wait.until(ExpectedConditions.textToBe(By.id("dialog"), "Complete!"));
-        screen("testProgress");
+        screen("progressMsg");
     }
 
     //Check generated file download.
     //Page allows to generate a txt file with the entered text & download it.
     @Test
-    public void testGenFileDL() throws FileNotFoundException {
+    public void generateFileDL() throws FileNotFoundException {
         driver.get("https://www.seleniumeasy.com/test/generate-file-to-download-demo.html");
 
         //Locate text box, send random string (500 char max)
@@ -143,7 +141,7 @@ public class SelEasyTests extends Methods {
         //Hit create & download
         driver.findElement(By.id("create")).click();
         driver.findElement(By.id("link-to-download")).click();
-        screen("testGenFileDL");
+        screen("generateFileDL");
 
         //Set up file object in the directory it was downloaded to
         File doc = new File(projPath + "\\bin\\download\\easyinfo.txt");
@@ -165,7 +163,7 @@ public class SelEasyTests extends Methods {
 
     //Check one of the slider widgets by moving it a random number of times in one of the directions
     @Test
-    public void testSlider() {
+    public void moveSlider() {
         driver.get("https://www.seleniumeasy.com/test/drag-drop-range-sliders-demo.html");
 
         //Locate the slider
@@ -175,23 +173,21 @@ public class SelEasyTests extends Methods {
 
         //Generate random number of steps (valid slider values are 1 - 100)
         final int OFFSET = RandomUtils.nextInt(1, 50);
-        //Choose random direction to move slider (true = right, false = left)
-        final boolean DIRECT = RandomUtils.nextBoolean();
 
-        //Move random number of times
-        if(DIRECT) {
+        //Move random number of times in a random direction (random bool)
+        if(RandomUtils.nextBoolean()) {
             //If true, move slider right by pressing Right Arrow key on each step and increasing counter
             for(int i = counter + OFFSET; counter < i; counter++)
                 slider.sendKeys(Keys.ARROW_RIGHT);
         } else {
-            //If false, same but reverse (Left Arrow key, decrease counter)
+            //If false, the same but reverse (Left Arrow key, decrease counter)
             for(int i = counter - OFFSET; counter > i; counter--)
                 slider.sendKeys(Keys.ARROW_LEFT);
         }
 
         //Retrieve the new counter value after moving
         int nCounter = Integer.parseInt((driver.findElement(By.cssSelector("#rangePrimary"))).getText());
-        screen("testSlider");
+        screen("moveSlider");
 
         //Compare current and expected counters
         assertEquals(nCounter, counter);
@@ -199,7 +195,7 @@ public class SelEasyTests extends Methods {
 
     //Check message which is shown by button press and disappears after 3 seconds
     @Test
-    public void testAutocloseMsg() {
+    public void autoCloseMsg() {
         driver.get("https://www.seleniumeasy.com/test/bootstrap-alert-messages-demo.html");
 
         //Hit button to show message
@@ -208,12 +204,12 @@ public class SelEasyTests extends Methods {
         //Wait until message disappears (element 'style' attribute will be changed to 'display: none;'
         wait.until(ExpectedConditions.attributeToBe(
                 By.xpath("/html/body/div[2]/div/div[2]/div/div[2]/div[3]"), "style", "display: none;"));
-        screen("testAutocloseMsg");
+        screen("autoCloseMsg");
     }
 
     //Check Java Script alert box, where input text is displayed on the main page
     @Test
-    public void testTextFromAlert() {
+    public void textFromAlert() {
         driver.get("https://www.seleniumeasy.com/test/javascript-alert-box-demo.html");
 
         //Locate & open alert box
@@ -229,17 +225,17 @@ public class SelEasyTests extends Methods {
 
         //Locate the line where the entered text is shown, check for match
         WebElement rText = driver.findElement(By.id("prompt-demo"));
-        screen("testTextFromAlert");
+        screen("textFromAlert");
         assertEquals(rText.getText(), "You have entered '" + TEXT + "' !");
     }
 
     //Negative tests
     //Access a non-existing page (part of the URL is randomly generated text)
     @Test
-    public void testNegPage404() {
+    public void negPage404() {
         //Set URL + append random text
         driver.get("https://www.seleniumeasy.com/test/" + RandomStringUtils.randomAlphanumeric(10));
-        screen("testNegPage404");
+        screen("negPage404");
 
         //Check page title (should be 'Page not found')
         assertEquals(driver.getTitle(), "Page not found | Selenium Easy");
@@ -247,7 +243,7 @@ public class SelEasyTests extends Methods {
 
     //Check two fields where you can write numbers and sum them, but enter letters instead
     @Test
-    public void testNegAddFields() {
+    public void negAddFields() {
         driver.get("https://www.seleniumeasy.com/test/basic-first-form-demo.html");
 
         //Locate 2 input fields
@@ -263,9 +259,27 @@ public class SelEasyTests extends Methods {
 
         //Locate line with result
         WebElement res = driver.findElement(By.id("displayvalue"));
-        screen("testNegAddFields");
+        screen("negAddFields");
 
         //Check for NaN (Not A Number) message
         assertEquals(res.getText(), "NaN");
     }
+
+    //Same as 'inputText' test, but send random Chinese words. Will work fine since the website supports this.
+    @Test
+    public void negChineseText() {
+        driver.get("https://www.seleniumeasy.com/test/basic-first-form-demo.html");
+
+        //Got the Chinese text from here:
+        //http://generator.lorem-ipsum.info/_chinese
+        WebElement input = driver.findElement(By.id("user-message"));
+        final String TEXT = "記富力長参激下高副能穂開募年祉著橋。臨内約宿掲人供妊況出託寄向崩己。演変不県発属吹信浩藤計木可。";
+        input.sendKeys(TEXT);
+
+        driver.findElement(By.cssSelector("#get-input > button")).click();
+        WebElement result = driver.findElement(By.cssSelector("#display"));
+        screen("negChineseText");
+        assertEquals(result.getText(), TEXT);
+    }
+
 }

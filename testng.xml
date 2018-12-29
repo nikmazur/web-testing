@@ -3,7 +3,7 @@
 <suite name="Test runs" parallel="tests" thread-count="1">
     <test name="Test Web">
     <classes>
-        <class name="SampleTests"/>
+        <class name="TheInternetTests"/>
         <class name="SelEasyTests"/>
     </classes>
     </test>

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -17,9 +18,9 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class SampleTests extends Methods {
+public class TheInternetTests extends Methods {
 
-    /**Test login page with the text fields in an alert popup.
+    /* Test login page with the text fields in an alert popup.
      * This test presents an interesting case when we have a separate popup JavaScript window where
      * we have to navigate to 2 separate fields and fill them with data. In this case I used a Robot
      * for navigation and the system clipboard for storing & pasting data to the 2nd field.*/
@@ -51,10 +52,10 @@ public class SampleTests extends Methods {
         //Wait until the greeting text is visible, screenshot & assert
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content")));
         WebElement text = driver.findElement(By.id("content"));
-        screen("login");
+        screen("testLogin");
         final String EXP = "Basic Auth\n" +
                 "Congratulations! You must have the proper credentials.";
-        assertEquals(EXP, text.getText());
+        assertEquals(text.getText(), EXP);
     }
 
     //Checkbox test. Switch state & assert
@@ -70,7 +71,7 @@ public class SampleTests extends Methods {
         check2.click();
 
         //Check their new state
-        screen("checkboxes");
+        screen("testCheckboxes");
         assert(check1.isSelected());
         assert(!check2.isSelected());
     }
@@ -85,8 +86,8 @@ public class SampleTests extends Methods {
 
         //Get the currently selected option, check it's text value
         WebElement option = list.getFirstSelectedOption();
-        screen("list");
-        assertEquals("Option 2", option.getText());
+        screen("testList");
+        assertEquals(option.getText(), "Option 2");
     }
 
     //Test for checking keyboard presses.
@@ -97,12 +98,12 @@ public class SampleTests extends Methods {
         //Press Pause, retrieve text and check
         rob.keyPress(KeyEvent.VK_PAUSE);
         WebElement res = driver.findElement(By.id("result"));
-        assertEquals("You entered: PAUSE", res.getText());
+        assertEquals(res.getText(),"You entered: PAUSE");
 
         //Same, but with NumPad6 key
         rob.keyPress(KeyEvent.VK_NUMPAD6);
-        screen("keyboard");
-        assertEquals("You entered: NUMPAD6", res.getText());
+        screen("testKeyboard");
+        assertEquals(res.getText(), "You entered: NUMPAD6");
     }
 
     //Test for handling multiple browser windows
@@ -123,8 +124,8 @@ public class SampleTests extends Methods {
             driver.switchTo().window(winHandle);
 
         //Check title and close 2nd window
-        assertEquals("New Window", driver.getTitle());
-        screen("newWind");
+        assertEquals(driver.getTitle(), "New Window");
+        screen("testNewWind");
         driver.close();
 
         //Switch back to main using saved handle
@@ -141,7 +142,7 @@ public class SampleTests extends Methods {
 
         //Assert file is present in the project directory (exists method)
         File doc = new File(projPath + "\\bin\\download\\some-file.txt");
-        screen("fileDL");
+        screen("testFileDL");
         assert(doc.exists());
         //Delete the downloaded file (allows to re-run the test again)
         doc.delete();
@@ -157,17 +158,17 @@ public class SampleTests extends Methods {
         WebElement value = driver.findElement(By.id("range"));
 
         //Assert that initial value is 0
-        assertEquals("0", value.getText());
+        assertEquals(value.getText(), "0");
 
         //Move right, assert new value. Each move adds 0.5.
         slider.sendKeys(Keys.ARROW_RIGHT);
-        assertEquals("0.5", value.getText());
+        assertEquals(value.getText(), "0.5");
 
         //Move right x2, assert new value
         slider.sendKeys(Keys.ARROW_RIGHT);
         slider.sendKeys(Keys.ARROW_RIGHT);
-        screen("sliderVal");
-        assertEquals("1.5", value.getText());
+        screen("testSliderVal");
+        assertEquals(value.getText(), "1.5");
     }
 
     //Testing large table with data (50 x 50 cells) by counting rows and columns, and selecting 10 random cells
@@ -177,12 +178,15 @@ public class SampleTests extends Methods {
         //Retrieve rows and columns to lists, assert size
         List<WebElement> columns = driver.findElements(By.cssSelector("#large-table th"));
         List<WebElement> rows = driver.findElements(By.cssSelector("#large-table tr"));
-        assertEquals(50, columns.size());
+        assertEquals(columns.size(), 50);
         //Size + 1 for rows, the 51st row is a header with titles
-        assertEquals(51, rows.size());
-        screen("table");
+        assertEquals(rows.size(), 51);
+        screen("testTable");
 
-        //Locate 10 cells using random numbers, assert that the cell text is equal to numbers each time
+        /* Locate 10 different cells using random numbers, assert that the cell text is equal to numbers each time.
+         * For each step we will be using a 'soft assert', which in case of an exception
+         * Instead of stopping will resume to the next assertion.*/
+        SoftAssert sAssert = new SoftAssert();
         for(int i = 0; i < 10; i++) {
             //Generating 2 random numbers between 1 - 50
             final int RROW = RandomUtils.nextInt(1, 51);
@@ -190,7 +194,9 @@ public class SampleTests extends Methods {
 
             WebElement rCell = driver.findElement(By.cssSelector
                     (".row-" + RROW + " > td:nth-child(" + RCOL + ")"));
-            assertEquals(RROW + "." + RCOL, rCell.getText());
+            sAssert.assertEquals(rCell.getText(), RROW + "." + RCOL);
         }
+        //This method in soft assert will throw an exception if it was caught in any of the asserts previously
+        sAssert.assertAll();
     }
 }
