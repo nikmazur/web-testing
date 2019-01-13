@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
@@ -105,7 +106,7 @@ public class SelEasyTests extends Methods {
         int count = 0;
         //Iterate through rows, increase counter on each match
         for(WebElement row : rows) {
-            if(row.getAttribute("style").equals(""))
+            if(!row.getAttribute("style").contains("display: none;"))
                 count++;
         }
 
@@ -170,19 +171,31 @@ public class SelEasyTests extends Methods {
         WebElement slider = driver.findElement(By.cssSelector("#slider2 > div > input"));
         //Retrieve current slider counter and convert it from string to int
         int counter = Integer.parseInt((driver.findElement(By.cssSelector("#rangePrimary"))).getText());
+        //Retrieve min and max slider values for establishing range
+        final int MIN = Integer.parseInt(slider.getAttribute("min"));
+        final int MAX = Integer.parseInt(slider.getAttribute("max"));
 
-        //Generate random number of steps (valid slider values are 1 - 100)
-        final int OFFSET = RandomUtils.nextInt(1, 50);
+        int offset = counter;
+        while(counter == offset)
+            //Select random number within the range which will be the new value.
+            //We take MAX + 1 because in RandomUtils the lower bound is inclusive, and upper is exclusive.
+            offset = RandomUtils.nextInt(MIN, MAX + 1);
 
-        //Move random number of times in a random direction (random bool)
-        if(RandomUtils.nextBoolean()) {
-            //If true, move slider right by pressing Right Arrow key on each step and increasing counter
-            for(int i = counter + OFFSET; counter < i; counter++)
-                slider.sendKeys(Keys.ARROW_RIGHT);
-        } else {
-            //If false, the same but reverse (Left Arrow key, decrease counter)
-            for(int i = counter - OFFSET; counter > i; counter--)
-                slider.sendKeys(Keys.ARROW_LEFT);
+        while(true) {
+            //Move in a random direction based on counter and offset comparison
+            if (counter < offset) {
+                //If counter is lower, move slider right by pressing Right Arrow key on each step and increasing counter
+                for ( ; counter < offset; counter++)
+                    slider.sendKeys(Keys.ARROW_RIGHT);
+                break;
+            }
+
+            if (counter > offset) {
+                //If higher, the same but reverse (Left Arrow key, decrease counter)
+                for ( ; counter > offset; counter--)
+                    slider.sendKeys(Keys.ARROW_LEFT);
+                break;
+            }
         }
 
         //Retrieve the new counter value after moving
