@@ -34,7 +34,7 @@ public class Methods {
         options.setProfile(setOptions());
 
         //Launch geckodriver, maximize window, configure wait object
-        System.setProperty("webdriver.gecko.driver", "bin\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", projPath + "\\bin\\geckodriver.exe");
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         wait=new WebDriverWait(driver, 20);
@@ -64,9 +64,9 @@ public class Methods {
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 
             //Append timestamp & test name to file name, save file
-            FileUtils.copyFile(scrFile, new File(projPath + "\\bin\\screenshots\\" + TIME + TNAME + ".jpg"));
+            FileUtils.moveFile(scrFile, new File(projPath + "\\bin\\screenshots\\" + TIME + TNAME + ".jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Could not create screenshot file for test: " + TNAME);
         }
     }
 
