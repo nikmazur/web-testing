@@ -3,6 +3,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -162,15 +163,17 @@ public class SelEasyTests extends Methods {
             Assert.fail("File easyinfo.txt not found!");
     }
 
-    //Check one of the slider widgets by moving it a random number of times in one of the directions
-    @Test
-    public void moveSlider() {
+    //Check 3 different slider widgets by moving them a random number of times in random direction.
+    //This test uses a data provider 'getSliders' (listed next) and will run 3 times.
+    @Test (dataProvider = "getSliders")
+    //ADDR and VALUE are passed from the data provider on each run
+    public void moveSlider(final String ADDR, final String VALUE) {
         driver.get("https://www.seleniumeasy.com/test/drag-drop-range-sliders-demo.html");
 
         //Locate the slider
-        WebElement slider = driver.findElement(By.cssSelector("#slider2 > div > input"));
+        WebElement slider = driver.findElement(By.cssSelector(ADDR));
         //Retrieve current slider counter and convert it from string to int
-        int counter = Integer.parseInt((driver.findElement(By.cssSelector("#rangePrimary"))).getText());
+        int counter = Integer.parseInt((driver.findElement(By.cssSelector(VALUE))).getText());
         //Retrieve min and max slider values for establishing range
         final int MIN = Integer.parseInt(slider.getAttribute("min"));
         final int MAX = Integer.parseInt(slider.getAttribute("max"));
@@ -181,29 +184,47 @@ public class SelEasyTests extends Methods {
             //We take MAX + 1 because in RandomUtils the lower bound is inclusive, and upper is exclusive.
             offset = RandomUtils.nextInt(MIN, MAX + 1);
 
-        while(true) {
-            //Move in a random direction based on counter and offset comparison
-            if (counter < offset) {
-                //If counter is lower, move slider right by pressing Right Arrow key on each step and increasing counter
-                for ( ; counter < offset; counter++)
-                    slider.sendKeys(Keys.ARROW_RIGHT);
-                break;
-            }
-
-            if (counter > offset) {
+        //Move in a random direction based on counter and offset comparison
+        //(Using Math.abs to get the absolute difference)
+        final int DIFF = Math.abs(offset - counter);
+        for(int i = 0; i < DIFF; i++) {
+            if (offset > counter) {
+                //If counter is lower, move slider right by pressing Right Arrow key and increase counter
+                slider.sendKeys(Keys.ARROW_RIGHT);
+                counter++;
+            }   else {
                 //If higher, the same but reverse (Left Arrow key, decrease counter)
-                for ( ; counter > offset; counter--)
-                    slider.sendKeys(Keys.ARROW_LEFT);
-                break;
+                slider.sendKeys(Keys.ARROW_LEFT);
+                counter--;
             }
         }
 
         //Retrieve the new counter value after moving
-        int nCounter = Integer.parseInt((driver.findElement(By.cssSelector("#rangePrimary"))).getText());
+        int nCounter = Integer.parseInt((driver.findElement(By.cssSelector(VALUE))).getText());
         screen("moveSlider");
 
         //Compare current and expected counters
         assertEquals(nCounter, counter);
+    }
+
+    //Data provider for the moveSlider test.
+    //Passes the location of the sliders and counters to the test, so it is ran multiple times.
+    @DataProvider
+    public Object[][] getSliders()
+    {
+        //Object for holding the data
+        Object[][] data = new Object[3][2];
+
+        //CssSelectors of sliders and counters.
+        //Data contains 3 rows and 2 columns, so the test will be ran 3 times with 2 values on each run
+        data[0][0] = "#slider1 > div:nth-child(2) > input:nth-child(1)";
+        data[0][1] = "#range";
+        data[1][0] = ".range-success > input:nth-child(1)";
+        data[1][1] = "#rangeSuccess";
+        data[2][0] = ".range-warning > input:nth-child(1)";
+        data[2][1] = "#rangeWarning";
+
+        return data;
     }
 
     //Check message which is shown by button press and disappears after 3 seconds
