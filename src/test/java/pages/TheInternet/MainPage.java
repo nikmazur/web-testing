@@ -17,7 +17,8 @@ public class MainPage {
     private String dropdownLink = "//a[@href='/dropdown']";
     private String keyPressesLink = "//a[@href='/key_presses']";
     private String windowsLink = "//a[@href='/windows']";
-    private String downloadLink = "//a[@href='/download']";
+    private String sliderLink = "//a[@href='/horizontal_slider']";
+    private String largeTableLink = "//a[@href='/large']";
 
     public MainPage() {
         $x(header).shouldHave(Condition.text("Welcome to the-internet"));
@@ -54,8 +55,15 @@ public class MainPage {
         return new Windows();
     }
 
-    public void download() {
-        $x(downloadLink).click();
-        $x("//*[text()='some-file.txt']").click();
+    @Step("Click link to Horizontal Slider page")
+    public Slider openSlider() {
+        $x(sliderLink).click();
+        return new Slider();
+    }
+
+    @Step("Click link to Large Table page")
+    public LargeTable openLargeTable() {
+        $x(largeTableLink).click();
+        return new LargeTable();
     }
 }

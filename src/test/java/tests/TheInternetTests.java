@@ -59,75 +59,23 @@ public class TheInternetTests extends Methods {
                 .switchWindows();
     }
 
-    //Download a txt file from a page to location dir.
-    //Requires to be logged in, so the test depends on the login test.
-    @Test
-    public void testFileDL() {
+    @Test(description = "Slider element test")
+    @Description("We move the slider by keyboard arrow presses and check the resulting value.")
+    public void testSliderVal() {
         openTheInternet()
-                .download();
-//        Methods.driver.get("https://the-internet.herokuapp.com/download_secure");
-//        //Find the download link by text, click on it
-//        Methods.driver.findElement(By.partialLinkText("some-file.txt")).click();
-//
-//        //Assert file is present in the project directory (exists method)
-//        File doc = new File(Methods.projPath + "\\bin\\download\\some-file.txt");
-//        screen("testFileDL");
-//        assert(doc.exists());
-//        //Delete the downloaded file (allows to re-run the test again)
-//        doc.delete();
+                .openSlider()
+                .moveSliderAssertValue('R', 1, "1")
+                .moveSliderAssertValue('R', 1.5, "2.5")
+                .moveSliderAssertValue('L', 0.5, "2")
+                .moveSliderAssertValue('L', 0.5, "1.5");
     }
 
-    //Slider element test.
-    //We move the slider by keyboard arrow presses and check the resulting values.
-//    @Test
-//    public void testSliderVal() {
-//        Methods.driver.get("https://the-internet.herokuapp.com/horizontal_slider");
-//
-//        //Locate the slider element and the value field
-//        WebElement slider = Methods.driver.findElement(By.xpath("/html/body/div[2]/div/div/div/input"));
-//        WebElement value = Methods.driver.findElement(By.id("range"));
-//
-//        //Assert that initial value is 0
-//        assertEquals(value.getText(), "0");
-//
-//        //Move right, assert new value. Each move adds 0.5.
-//        slider.sendKeys(Keys.ARROW_RIGHT);
-//        assertEquals(value.getText(), "0.5");
-//
-//        //Move right x2, assert new value
-//        slider.sendKeys(Keys.ARROW_RIGHT);
-//        slider.sendKeys(Keys.ARROW_RIGHT);
-//        screen("testSliderVal");
-//        assertEquals(value.getText(), "1.5");
-//    }
+    @Test(description = "Table test")
+    @Description("Test large table with data (50 x 50 cells) by counting rows and columns, and selecting random cells")
+    public void testTable() {
 
-    //Testing large table with data (50 x 50 cells) by counting rows and columns, and selecting 10 random cells
-//    @Test
-//    public void testTable() {
-//        Methods.driver.get("https://the-internet.herokuapp.com/large");
-//
-//        //Retrieve rows and columns to lists, assert size
-//        List<WebElement> columns = Methods.driver.findElements(By.cssSelector("#large-table th"));
-//        List<WebElement> rows = Methods.driver.findElements(By.cssSelector("#large-table tr"));
-//        assertEquals(columns.size(), 50);
-//        //Size + 1 for rows, the 51st row is a header with titles
-//        assertEquals(rows.size(), 51);
-//        screen("testTable");
-//
-//        /* Locate 10 different cells using random numbers, assert that the cell text is equal to numbers each time.
-//         * For each step we will be using a 'soft assert', which in case of an exception
-//         * Instead of stopping will resume to the next assertion.*/
-//        SoftAssert sAssert = new SoftAssert();
-//        for(int i = 0; i < 10; i++) {
-//            //Generating 2 random numbers between 1 - 50
-//            final int RROW = RandomUtils.nextInt(1, 51);
-//            final int RCOL = RandomUtils.nextInt(1, 51);
-//
-//            WebElement rCell = Methods.driver.findElement(By.cssSelector
-//                    (".row-" + RROW + " > td:nth-child(" + RCOL + ")"));
-//            sAssert.assertEquals(rCell.getText(), RROW + "." + RCOL);
-//        }
-//        //This method in soft assert will throw an exception if it was caught in any of the asserts previously
-//        sAssert.assertAll();
-//    }
+        openTheInternet()
+                .openLargeTable()
+                .runRandomSelections(10);
+    }
 }
