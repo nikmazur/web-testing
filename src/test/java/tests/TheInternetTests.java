@@ -35,10 +35,8 @@ public class TheInternetTests extends Methods {
     public void testList() {
         openTheInternet()
                 .openDropdown()
-                .selectOption(1)
-                .checkValue("Option 1")
-                .selectOption(2)
-                .checkValue("Option 2");
+                .selectOptionCheckValue(1, "Option 1")
+                .selectOptionCheckValue(2, "Option 2");
     }
 
     @Test(description = "Check keyboard presses")
@@ -73,7 +71,6 @@ public class TheInternetTests extends Methods {
     @Test(description = "Table test")
     @Description("Test large table with data (50 x 50 cells) by counting rows and columns, and selecting random cells")
     public void testTable() {
-
         openTheInternet()
                 .openLargeTable()
                 .runRandomSelections(10);

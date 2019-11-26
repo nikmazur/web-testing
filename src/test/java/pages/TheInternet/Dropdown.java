@@ -17,15 +17,11 @@ public class Dropdown {
         $x(dropdown).shouldBe(Condition.visible);
     }
 
-    @Step("Select option {0} from list")
-    public Dropdown selectOption(int index) {
+    @Step("Select option {0} from list, check text \"{text}\"")
+    public Dropdown selectOptionCheckValue(int index, String text) {
         $x(dropdown + "//option[@value='" + index + "']").click();
-        return this;
-    }
-
-    @Step("Check text: {text}")
-    public Dropdown checkValue(String text) {
         $x(selectedOption).shouldHave(Condition.exactText(text));
         return this;
     }
+
 }

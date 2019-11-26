@@ -7,8 +7,7 @@ import io.qameta.allure.Step;
 import org.apache.commons.lang3.RandomUtils;
 import org.testng.asserts.SoftAssert;
 
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 public class LargeTable {
 
@@ -22,8 +21,8 @@ public class LargeTable {
         $x(header).shouldHave(Condition.exactText("Large & Deep DOM"));
         $x(table).shouldBe(Condition.visible);
 
-        $$("#large-table th").shouldHave(CollectionCondition.size(50));
-        $$("#large-table tr").shouldHave(CollectionCondition.size(51));
+        $$x(table + "//th").shouldHave(CollectionCondition.size(50));
+        $$x(table + "//tr").shouldHave(CollectionCondition.size(51));
     }
 
     @Step("Select {runs} random cells and verify their values")
@@ -33,6 +32,7 @@ public class LargeTable {
 
         for(int i = 0; i < runs; i++)
             selectVerifyRandomCell(RandomUtils.nextInt(1, 51), RandomUtils.nextInt(1, 51));
+
         sAssert.assertAll();
         return this;
     }
