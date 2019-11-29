@@ -15,6 +15,10 @@ public class MainPage {
     private String menuTable = PageLayout.getMenu() + "//a[text()='Table']";
     private String menuTableDataSearch = menuTable + "/..//a[text()='Table Data Search']";
 
+    private String menuProgressBars = PageLayout.getMenu() + "//a[text()='Progress Bars & Sliders']";
+    private String menuDownloadBar = menuProgressBars + "/..//a[text()='JQuery Download Progress bars']";
+    private String menuSliders = menuProgressBars + "/..//a[text()='Drag & Drop Sliders']";
+
     public MainPage() {
         PageLayout layout = new PageLayout();
         $x(greetingText).shouldHave(Condition.exactText("Welcome to Selenium Easy Demo"));
@@ -39,6 +43,20 @@ public class MainPage {
         $x(menuTable).click();
         $x(menuTableDataSearch).click();
         return new TableDataSearch();
+    }
+
+    @Step("Open Download Progress Bar page from the menu")
+    public DownloadBar openDownloadBarPage() {
+        $x(menuProgressBars).click();
+        $x(menuDownloadBar).click();
+        return new DownloadBar();
+    }
+
+    @Step("Open Drag & Drop Sliders page from the menu")
+    public Sliders openSlidersPage() {
+        $x(menuProgressBars).click();
+        $x(menuSliders).click();
+        return new Sliders();
     }
 
 }

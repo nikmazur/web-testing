@@ -21,7 +21,7 @@ public class TableDataSearch {
         $x(taskTable).shouldBe(Condition.visible);
     }
 
-    @Step("Filter Tasks table by \"{text}\", should be {numberRows} rows")
+    @Step("Filter Tasks table by \"{text}\", should be {numberRows} rows visible")
     public TableDataSearch filterCheckResult(String text, int numberRows) {
         Methods.waitForSuccess(()-> {
             $x(taskTableFilter).clear();
