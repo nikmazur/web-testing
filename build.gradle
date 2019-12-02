@@ -22,17 +22,15 @@ version = '1.0-SNAPSHOT'
 
 description = """"""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 repositories {
      mavenCentral()
 }
 dependencies {
     testCompile group: 'org.testng', name: 'testng', version: '7.0.0'
-    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:'3.141.0'
     testCompile group: 'com.codeborne', name: 'selenide', version: '5.5.0'
+    testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.7.1'
     testCompile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    testCompile group: 'org.aeonbits.owner', name: 'owner', version: '1.0.10'
     testCompile group: 'com.github.javafaker', name: 'javafaker', version: '1.0.1'
 }
 

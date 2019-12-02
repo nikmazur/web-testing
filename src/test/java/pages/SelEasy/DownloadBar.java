@@ -5,7 +5,7 @@ import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-public class DownloadBar {
+public class DownloadBar extends PageLayout {
 
     private String header = "//h2";
     private String downloadButton = "//button[@id='downloadButton']";
@@ -15,7 +15,6 @@ public class DownloadBar {
     private String dialogButton = dlDialog + "/..//button[text()='Close']";
 
     public DownloadBar() {
-        PageLayout layout = new PageLayout();
         $x(header).shouldHave(Condition.exactText("JQuery UI Progress bar - Download Dialog"));
         $x(downloadButton).shouldBe(Condition.visible);
     }

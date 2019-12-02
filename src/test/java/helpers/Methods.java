@@ -1,26 +1,37 @@
 package helpers;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
-import org.apache.commons.lang3.RandomUtils;
+import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Screenshots.takeScreenShotAsFile;
 import static com.codeborne.selenide.WebDriverRunner.source;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static java.time.DayOfWeek.SUNDAY;
 
 public class Methods {
+
+    final Properties PROP = ConfigFactory.create(Properties.class);
+
+    @BeforeSuite(alwaysRun = true, description = "Browser Setup")
+    public void setupBrowser() {
+        WebDriverManager.chromedriver().setup();
+        Configuration.browser = "chrome";
+        Configuration.headless = PROP.headless();
+
+        Allure.addAttachment("Headless Mode", String.valueOf(PROP.headless()));
+    }
 
     @Step("Open TheInternet home page")
     public static pages.TheInternet.MainPage openTheInternet() {

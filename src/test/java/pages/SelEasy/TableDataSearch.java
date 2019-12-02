@@ -8,7 +8,7 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class TableDataSearch {
+public class TableDataSearch extends PageLayout{
 
     private String header = "//h2";
 
@@ -16,7 +16,6 @@ public class TableDataSearch {
     private String taskTable = "//table[@id='task-table']";
 
     public TableDataSearch() {
-        PageLayout layout = new PageLayout();
         $x(header).shouldHave(Condition.exactText("Type in your search to filter data by Tasks / Assignee / Status "));
         $x(taskTable).shouldBe(Condition.visible);
     }

@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class MainPage {
 
-    private String header = "//*[@class='heading']";
+    private String header = "//h1";
     private String footer = "page-footer";
 
     private String formAuth = "//a[@href='/login']";

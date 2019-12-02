@@ -10,12 +10,11 @@ import org.testng.Assert;
 import static com.codeborne.selenide.Selenide.$x;
 import static org.testng.Assert.assertEquals;
 
-public class Sliders {
+public class Sliders extends PageLayout {
 
     private String header = "//h2";
 
     public Sliders() {
-        PageLayout layout = new PageLayout();
         $x(header).shouldHave(Condition.exactText("Range Sliders"));
     }
 

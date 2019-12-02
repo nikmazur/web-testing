@@ -5,7 +5,7 @@ import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-public class SimpleFormDemo {
+public class SimpleFormDemo extends PageLayout {
     private String singleInputPanel = "//div[text()='Single Input Field']/..";
 
     private String singleInputForm = singleInputPanel + "//input[@id='user-message']";
@@ -13,7 +13,6 @@ public class SimpleFormDemo {
     private String singleInputResult = singleInputPanel + "//div[@id='user-message']/*[@id='display']";
 
     public SimpleFormDemo() {
-        PageLayout layout = new PageLayout();
         $x(singleInputPanel).shouldBe(Condition.visible);
     }
 

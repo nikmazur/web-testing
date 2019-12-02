@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-public class InputFormSubmit {
+public class InputFormSubmit extends PageLayout {
 
     private String header = "//h2";
 
@@ -24,7 +24,6 @@ public class InputFormSubmit {
     private String projectDescription = form + "//textarea[@name='comment']";
 
     public InputFormSubmit() {
-        PageLayout layout = new PageLayout();
         $x(header).shouldHave(Condition.exactText("Input form with validations"));
     }
 
