@@ -2,11 +2,14 @@ package helpers;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 
@@ -14,6 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.Screenshots.takeScreenShotAsFile;
@@ -25,12 +30,18 @@ public class Methods {
     final Properties PROP = ConfigFactory.create(Properties.class);
 
     @BeforeSuite(alwaysRun = true, description = "Browser Setup")
-    public void setupBrowser() {
-        WebDriverManager.chromedriver().setup();
-        Configuration.browser = "chrome";
-        Configuration.headless = PROP.headless();
+    public void setupBrowser() throws MalformedURLException  {
+        Allure.addAttachment("Remote", String.valueOf(PROP.remote()));
 
-        Allure.addAttachment("Headless Mode", String.valueOf(PROP.headless()));
+        if(!PROP.remote()) {
+            WebDriverManager.chromedriver().setup();
+            Configuration.browser = "chrome";
+            Configuration.headless = PROP.headless();
+        } else {
+            DesiredCapabilities desCaps = DesiredCapabilities.chrome();
+            desCaps.setCapability("enableVNC", true);
+            WebDriverRunner.setWebDriver(new RemoteWebDriver(URI.create(PROP.selenoidUrl()).toURL(), desCaps));
+        }
     }
 
     @Step("Open TheInternet home page")

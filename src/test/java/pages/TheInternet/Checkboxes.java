@@ -16,13 +16,13 @@ public class Checkboxes {
         $x(form).shouldBe(Condition.visible);
     }
 
-    @Step("Click on checkbox {0}")
+    @Step("Click on checkbox {index}")
     public Checkboxes clickCheckbox(int index) {
         $x(form + "/input[" + index + "]").click();
         return this;
     }
 
-    @Step("Check status of checkbox {0}")
+    @Step("Check status of checkbox {index}")
     public Checkboxes verifyCheckbox(int index, boolean checked) {
         if(checked)
             $x(form + "/input[" + index + "]").shouldBe(Condition.value("on"));

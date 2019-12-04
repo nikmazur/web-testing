@@ -2,11 +2,13 @@ package tests;
 
 import helpers.Methods;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
+@Epic("Web Testing")
+@Feature("Testing TheInternet website")
 @Test(groups = "TheInternet")
 public class TheInternetTests extends Methods {
 

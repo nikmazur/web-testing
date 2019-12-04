@@ -20,8 +20,6 @@ allure {
 group = 'com.example.nmazur'
 version = '1.0-SNAPSHOT'
 
-description = """"""
-
 repositories {
      mavenCentral()
 }
@@ -37,6 +35,8 @@ dependencies {
 test {
     ignoreFailures = true
     useTestNG {
+        setParallel('methods')
+        setThreadCount(4)
         includeGroups 'TheInternet', 'SelEasy'
         useDefaultListeners = true
     }

@@ -22,6 +22,10 @@ public class PageLayout {
     private String menuDownloadBar = menuProgressBars + "/..//a[text()='JQuery Download Progress bars']";
     private String menuSliders = menuProgressBars + "/..//a[text()='Drag & Drop Sliders']";
 
+    private String menuAlerts = menu + "//a[text()='Alerts & Modals']";
+    private String menuBootstrapAlerts = menuAlerts + "/..//a[text()='Bootstrap Alerts']";
+    private String menuJavascriptAlerts = menuAlerts + "/..//a[text()='Javascript Alerts']";
+
     public PageLayout() {
         checkGeneralLayout();
     }
@@ -55,16 +59,30 @@ public class PageLayout {
     }
 
     @Step("Open Download Progress Bar page from the menu")
-    public DownloadBar openDownloadBarPage() {
+    public DownloadBarPage openDownloadBarPage() {
         $x(menuProgressBars).click();
         $x(menuDownloadBar).click();
-        return new DownloadBar();
+        return new DownloadBarPage();
     }
 
     @Step("Open Drag & Drop Sliders page from the menu")
-    public Sliders openSlidersPage() {
+    public SlidersPage openSlidersPage() {
         $x(menuProgressBars).click();
         $x(menuSliders).click();
-        return new Sliders();
+        return new SlidersPage();
+    }
+
+    @Step("Open Bootstrap Alerts page from the menu")
+    public BootstrapAlertsPage openBootstrapAlertsPage() {
+        $x(menuAlerts).click();
+        $x(menuBootstrapAlerts).click();
+        return new BootstrapAlertsPage();
+    }
+
+    @Step("Open Javascript Alerts page from the menu")
+    public JavascriptAlertsPage openJavascriptAlertsPage() {
+        $x(menuAlerts).click();
+        $x(menuJavascriptAlerts).click();
+        return new JavascriptAlertsPage();
     }
 }

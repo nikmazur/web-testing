@@ -10,16 +10,16 @@ import org.testng.Assert;
 import static com.codeborne.selenide.Selenide.$x;
 import static org.testng.Assert.assertEquals;
 
-public class Sliders extends PageLayout {
+public class SlidersPage extends PageLayout {
 
     private String header = "//h2";
 
-    public Sliders() {
+    public SlidersPage() {
         $x(header).shouldHave(Condition.exactText("Range Sliders"));
     }
 
     @Step("Set Slider {sliderId} to: {newValue}")
-    public Sliders moveSlider(String sliderId, int newValue) {
+    public SlidersPage moveSlider(String sliderId, int newValue) {
         int counter = Integer.parseInt($x("//*[@id='slider" + sliderId + "']//output").getText());
 
         if(counter == newValue)
