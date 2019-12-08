@@ -8,10 +8,11 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ public class Methods {
 
     final Properties PROP = ConfigFactory.create(Properties.class);
 
-    @BeforeSuite(alwaysRun = true, description = "Browser Setup")
+    @BeforeMethod(alwaysRun = true, description = "Browser Setup")
     public void setupBrowser() throws MalformedURLException  {
         Allure.addAttachment("Remote", String.valueOf(PROP.remote()));
 
@@ -39,8 +40,11 @@ public class Methods {
             Configuration.headless = PROP.headless();
         } else {
             DesiredCapabilities desCaps = DesiredCapabilities.chrome();
+            desCaps.setBrowserName("chrome");
             desCaps.setCapability("enableVNC", true);
-            WebDriverRunner.setWebDriver(new RemoteWebDriver(URI.create(PROP.selenoidUrl()).toURL(), desCaps));
+            RemoteWebDriver driver = new RemoteWebDriver(URI.create(PROP.selenoidUrl()).toURL(), desCaps);
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+            WebDriverRunner.setWebDriver(driver);
         }
     }
 
