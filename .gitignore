@@ -13,11 +13,17 @@
 # IDEA project settings
 .idea/
 
+# Gradle
+.gradle/
+gradle
+/build/
+
+# Allure
+.allure/
+allure-results/
+
 # Files created by IDEA for project modules
 *.iml
-
-# Maven files
-target/
 
 # Default folder for compilation files in IDEA
 out/
