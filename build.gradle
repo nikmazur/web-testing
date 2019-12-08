@@ -13,12 +13,9 @@ apply plugin: 'io.qameta.allure'
 allure {
     version = '2.8.1'
     autoconfigure = true
-    reportDir = file("$buildDir/allure-report")
+    reportDir = file("$baseDir/report/allure-report")
     useTestNG { version = '2.0-BETA10' }
 }
-
-group = 'com.example.nmazur'
-version = '1.0-SNAPSHOT'
 
 repositories {
      mavenCentral()
@@ -36,7 +33,7 @@ test {
     ignoreFailures = true
     useTestNG {
         setParallel('methods')
-        setThreadCount(4)
+        setThreadCount(2)
         includeGroups 'TheInternet', 'SelEasy'
         useDefaultListeners = true
     }
