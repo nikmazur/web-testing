@@ -1,9 +1,7 @@
 # Web-Testing
-This project (built with Gradle) is a group of web tests using Selenide, Webdriver and TestNG as the testing framework. Allure is used for creating run reports.
+This project (built with Gradle) is a group of web tests using Selenide, Webdriver and TestNG as the testing framework. Allure is used for creating run reports. Tests can be ran either locally or remotely (in a Docker container).
 
 In this project I used the Page Object design pattern, where each page has a seperate class which lists all elements, methods and checks related to that page.
-
-Tests can be ran either locally or remotely (in a Selenoid Docker container).
 
 ## Run
 Java and Gradle need to be installed. Command to build and execute all tests:
@@ -17,11 +15,14 @@ This will automatically set up the browser (Chrome by WebDriverManager), run all
 
 The report contains data on each test, parameters which were used for it, and execution history. At the end of each test there are also attachments of a screenshot and HTML code of the web page.
 
+## [Download Video Recordings and Logs](https://drive.google.com/open?id=1raaonersGmFzjeADcowghLetQ_9sdp8k)
+Zalenium container was used to record the videos and logs of test executions. You can download them in a separate zip file.
+
 ## Changing Launch Parameters
 By default the tests and launched locally in Chrome. By editing **application.properties** in root project directory you can change the following parameters:
 
-* **remote** = true (Launch remotely in Selenoid) / false (Launch in browser locally)
-* **selenoidUrl** = (If previous is set to "true", specify the Selenoid URL here)
+* **remote** = true (Launch remotely in Zalenium) / false (Launch in browser locally)
+* **selenoidUrl** = (If previous is set to "true", specify the Zalenium URL here)
 * **headless** = true (If remote=false, launch browser locally in headless mode) / false (Launch browser regularly)
 
 ## Website Info

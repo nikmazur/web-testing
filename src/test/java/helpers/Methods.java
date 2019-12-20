@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +32,7 @@ public class Methods {
     final Properties PROP = ConfigFactory.create(Properties.class);
 
     @BeforeMethod(alwaysRun = true, description = "Browser Setup")
-    public void setupBrowser() throws MalformedURLException  {
+    public void setupBrowser(Method method) throws MalformedURLException  {
         Allure.addAttachment("Remote", String.valueOf(PROP.remote()));
 
         if(!PROP.remote()) {
@@ -39,9 +40,13 @@ public class Methods {
             Configuration.browser = "chrome";
             Configuration.headless = PROP.headless();
         } else {
-            DesiredCapabilities desCaps = DesiredCapabilities.chrome();
-            desCaps.setBrowserName("chrome");
+            DesiredCapabilities desCaps = DesiredCapabilities.firefox();
+            desCaps.setBrowserName("firefox");
             desCaps.setCapability("enableVNC", true);
+            //Capabilites for Zalenium (test name & file name)
+            desCaps.setCapability("name", method.getName());
+            desCaps.setCapability("testFileNameTemplate", "REC_{testName}_{timestamp}");
+
             RemoteWebDriver driver = new RemoteWebDriver(URI.create(PROP.selenoidUrl()).toURL(), desCaps);
             driver.manage().window().setSize(new Dimension(1920, 1080));
             WebDriverRunner.setWebDriver(driver);
@@ -84,6 +89,7 @@ public class Methods {
     public void saveScreenAndHTML() {
         screenshot("Screen " + url());
         HTML();
+        WebDriverRunner.driver().close();
     }
 
     @Attachment(value = "{name}", type = "image/png")
