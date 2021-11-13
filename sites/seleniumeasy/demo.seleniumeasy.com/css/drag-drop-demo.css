@@ -1,0 +1,61 @@
+
+#todrag{
+	list-style-type: none;
+	padding:0;
+	margin:0;
+	padding-bottom:5px;
+}
+
+/*
+ * Let's tune our draggable items !
+ */
+[draggable=true]{
+	cursor: move;
+	padding:1em;
+
+	border-radius:2px;
+
+	border:1px black solid;
+	margin-bottom:0.1em;
+	display:block;
+}
+[draggable=true]:hover{
+	box-shadow:0 0 5px green;
+}
+
+#droppedlist, [dropzone]{
+	width:90%;
+	margin:auto;
+	border:1px gray solid;
+	border-radius:2px;
+}
+
+/* Soft background transition */
+[draggable=true], [dropzone]{
+	transition:
+		box-shadow linear 0.2s,
+		background-color linear 0.2s,
+		color linear 0.2s;
+}
+
+[dropzone]{
+	color:gray;
+	font-style:italic;
+	font-size:1.5rem;
+	text-align:center;
+	border:2px gray dashed;
+	padding:2em 0;
+}
+#droppedlist img, #droppedlist span{
+	display:block;
+	padding:2em;
+}
+#droppedlist img{
+	margin:auto;
+}
+
+.hidden{ visibility:hidden; }
+.w25{ width:25%; }
+.w50{ width:50%; }
+.moveleft{	float:left; }
+.fright{ float:right; }

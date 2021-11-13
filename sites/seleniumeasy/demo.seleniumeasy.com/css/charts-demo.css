@@ -1,0 +1,290 @@
+/*
+ // Inspiration taken from Mike | Creative Mints
+ // - Dribbble.com page -> http://drbl.in/ghSU
+ 
+ Tried to keep it clean and documented. It's not absolutely perfect and I haven't tested it in many of the older browsers, 
+ but I will try and tweak it when I see an issue or someone mentions it. Always love the work the designers over at Dribbble.com
+ put together. I wanted to attempt to mimic their photoshop work and provide some fun widgets for you Bootstrappers.
+ 
+ - Brian Moeller
+ 
+*/
+
+@font-face {
+    font-family: 'weather';
+    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot');
+    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.woff') format('woff'),
+         url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.ttf') format('truetype'),
+         url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*-- BS3 Modified Classes --*/
+.panel {
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+.panel-body {
+    padding: 20px;
+}
+.panel-heading {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.panel-footer {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+ .sonar-wrapper {
+  height: 10%;
+}
+
+/* Prevent scrollbars to appear when waves go out of bound */
+.sonar-wrapper {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  padding: 8rem 0;
+}
+
+/* The circle */
+.sonar-emitter {
+  position: relative;
+  margin: 0 auto;
+  width: 275px;
+  height: 275px;
+  border-radius: 9999px;
+  background-color: HSL(380,80%,80%);
+}
+
+/* the 'wave', same shape and size as its parent */
+.sonar-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: HSL(30,100%,50%);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/*
+  Animate!
+  NOTE: add browser prefixes where needed.
+*/
+.sonar-wave {
+  animation: sonarWave 2s linear infinite;
+}
+
+@keyframes sonarWave {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+
+
+/*-- Common Use Classes --*/
+.btn-ui {
+    background-color: #E55F3A;
+    border-color: #C54A28;
+    color: #fff;
+}
+.btn-ui:hover {
+    background-color: #E0624C;
+    color: #fff;
+}
+.list-block {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+.list-block ul {
+    display: table-row;
+}
+.list-block li {
+    display: table-cell;
+    margin: 0;
+}
+.pad-left-0 {
+    padding-left: 0px;
+}
+.pad-right-0 {
+    padding-right: 0px;
+}
+.mrg-btm-10 {
+    margin-bottom: 10px;
+}
+.mrg-btm-20 {
+    margin-bottom: 20px;
+}
+
+
+/*-- Pie Chart Widget --*/
+#pie-chart-widget .panel-body {
+    padding: 0px;
+}
+#pie-chart-widget .panel-footer {
+    background-color: #fff;
+    padding: 0px;
+    margin-top: 20px;
+}
+#pie-chart-widget .panel-footer .btn {
+    border: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 20px 0px;
+    color: #fff;
+    background-color: #776B5F;
+    border-top: 3px solid #6d6257;
+}
+#pie-chart-widget .panel-footer .btn:hover {
+    background-color: #62584C;
+    border-color: #52483F;
+}
+#pie-chart-widget h2 {
+    font-weight: 700;
+    margin: 3px 0 0 0;
+}
+#pie-chart-widget .legend li {
+    background-color: #F5F0EC;
+    padding: 20px 10px;
+}
+#pie-chart-widget .legend li:not(:first-child) {
+    border-left: 1px solid #fff;
+}
+#pie-chart-widget .legend .video {   
+    border-top: 4px solid #4DAF7C; 
+}
+#pie-chart-widget .legend .audio {
+    border-top: 4px solid #EAC85D;
+}
+#pie-chart-widget .legend .photo {
+    border-top: 4px solid #E25331;
+}
+
+
+
+
+
+/*-- Line Chart Widget --*/
+#myLineChart {
+    background-color: #55BC75;
+    padding: 0px 5px;
+    margin: 0px;
+}
+#myBarChart {
+    margin-top: 10px;
+}
+#line-chart-widget .panel-heading {
+    background-color: #55BC75;
+    color: #fff;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+#line-chart-widget .panel-heading small {
+    color: #fff;
+}
+#line-chart-widget .panel-heading .label {
+    background-color: rgba(0,0,0,0.1);
+    padding: 5px;
+}
+#line-chart-widget .panel-body {
+    padding: 0px;
+}
+#line-chart-widget .panel-footer {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 0px;
+    border-top: none;
+}
+#line-chart-widget .panel-footer li {
+    padding: 10px 0;
+}
+#line-chart-widget h3 {
+    font-weight: 700;
+    margin: 0px;
+}
+#line-chart-widget li {
+    width:50%;
+}
+#line-chart-widget .legend li {
+    background-color: #F5F0EC;
+    padding: 20px 0;
+}
+#line-chart-widget .legend li:not(:first-child) {
+    border-left: 1px solid #fff;
+}
+#line-chart-widget .chart-block>div {
+    margin-top: 20px;
+    width:55%;
+}
+#line-chart-widget .chart-block>div:last-child {
+    padding-left: 15px;
+    width:45%;
+}
+#line-chart-widget .chart-block .change {
+    color:#fff;
+    font-size: 1.6em;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #55BC75;
+    width:100%;
+}
+#line-chart-widget .chart-block .change i {
+    font-size: .6em;
+}
+
+
+@media only screen and (max-width: 767px) { /* phones */
+    #nav-widget .btn {
+        text-align: left;
+    }
+    #nav-widget .btn-group:not(:first-child) {
+        margin: 0px;
+        border-left: 0px;
+        border-top: 1px solid #F5F0EC;
+    }
+    .btn-group>.btn {
+        border-radius: 0;
+    }
+    .btn-group>.btn:last-child {
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    .btn-group-justified>.btn, .btn-group-justified>.btn-group {
+        float: left;
+        width: 100%;
+    }
+    .btn-group>.btn-group>.btn {
+        border-radius: 0;
+    }
+    .btn-group .btn+.btn, .btn-group .btn+.btn-group, .btn-group .btn-group+.btn, .btn-group .btn-group+.btn-group {
+        margin-left: 0px;
+    }
+    .btn-group>.btn-group:first-child>.btn:last-child {
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .btn-group>.btn-group:last-child>.btn:last-child {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+}
+
+
+
+

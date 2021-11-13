@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 public class Windows {
     private String content = "//div[@id='content']";
     private String header = content + "//h3";
-    private String newWinLink = content + "//*[@href='/windows/new' and text()='Click Here']";
+    private String newWinLink = content + "//a[@href='windows/new.html']";
 
     public Windows() {
         $x(header).shouldHave(Condition.exactText("Opening a new window"));

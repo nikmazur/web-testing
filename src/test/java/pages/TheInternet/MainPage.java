@@ -12,13 +12,13 @@ public class MainPage {
     private String header = "//h1";
     private String footer = "page-footer";
 
-    private String formAuth = "//a[@href='/login']";
-    private String checkboxesLink = "//a[@href='/checkboxes']";
-    private String dropdownLink = "//a[@href='/dropdown']";
-    private String keyPressesLink = "//a[@href='/key_presses']";
-    private String windowsLink = "//a[@href='/windows']";
-    private String sliderLink = "//a[@href='/horizontal_slider']";
-    private String largeTableLink = "//a[@href='/large']";
+    private String formAuth = "//a[@href='login.html']";
+    private String checkboxesLink = "//a[@href='checkboxes.html']";
+    private String dropdownLink = "//a[@href='dropdown.html']";
+    private String keyPressesLink = "//a[@href='key_presses.html']";
+    private String windowsLink = "//a[@href='windows.html']";
+    private String sliderLink = "//a[@href='horizontal_slider.html']";
+    private String largeTableLink = "//a[@href='large.html']";
 
     public MainPage() {
         $x(header).shouldHave(Condition.text("Welcome to the-internet"));
