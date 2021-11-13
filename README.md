@@ -26,7 +26,7 @@ By default the tests and launched locally in Chrome. By editing **application.pr
 * **headless** = true (If remote=false, launch browser locally in headless mode) / false (Launch browser regularly)
 
 ## Website Info
-For testing I chose 2 different websites:
+For testing I chose 2 different websites. Tests access local mirrors of these websites downloaded to the project directory.
 <details>
 <summary>TheInternet</summary>
 https://the-internet.herokuapp.com/
@@ -38,7 +38,7 @@ This website consists of separate pages with various web elements designed for r
 
 <details>
 <summary>Selenium Easy</summary>
-https://www.seleniumeasy.com/test/
+https://demo.seleniumeasy.com/
 
 ![alt text](https://github.com/nikmazur/Web-Testing/blob/master/bin/seleasy.png "Selenium Easy")
 

@@ -30,6 +30,8 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 public class Methods {
 
     final Properties PROP = ConfigFactory.create(Properties.class);
+    final static String PROJ_PATH = new File("").getAbsolutePath();
+    final static String S = File.separator;
 
     @BeforeMethod(alwaysRun = true, description = "Browser Setup")
     public void setupBrowser(Method method) throws MalformedURLException  {
@@ -55,13 +57,14 @@ public class Methods {
 
     @Step("Open TheInternet home page")
     public static pages.TheInternet.MainPage openTheInternet() {
-        Selenide.open("https://the-internet.herokuapp.com");
+        // Opens local site mirror in the proj directory
+        Selenide.open(PROJ_PATH + S + "sites" + S + "theinternet" + S + "index.html");
         return new pages.TheInternet.MainPage();
     }
 
     @Step("Open Selenium Easy home page")
     public static pages.SelEasy.MainPage openSelEasy() {
-        Selenide.open("https://www.seleniumeasy.com/test");
+        Selenide.open(PROJ_PATH + S + "sites" + S + "seleniumeasy" + S + "index.html");
         return new pages.SelEasy.MainPage();
     }
 
