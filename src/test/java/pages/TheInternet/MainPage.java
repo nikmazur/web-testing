@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -21,7 +23,7 @@ public class MainPage {
     private String largeTableLink = "//a[@href='large.html']";
 
     public MainPage() {
-        $x(header).shouldHave(Condition.text("Welcome to the-internet"));
+        $x(header).shouldHave(Condition.text("Welcome to the-internet"), Duration.ofSeconds(5));
         $(By.id(footer)).shouldBe(Condition.visible);
     }
 

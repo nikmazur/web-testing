@@ -1,16 +1,18 @@
 package tests;
 
-import helpers.Methods;
+import helpers.GeneralBrowser;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 
+import static helpers.Methods.openTheInternet;
+
 @Epic("Web Testing")
 @Feature("Testing TheInternet website")
 @Test(groups = "TheInternet")
-public class TheInternetTests extends Methods {
+public class TheInternetTests extends GeneralBrowser {
 
     @Test(description = "Test login page, login & logout")
     public void testLogin() {

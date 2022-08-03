@@ -3,6 +3,8 @@ package pages.SelEasy;
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$x;
 
 public class BootstrapAlertsPage extends PageLayout {
@@ -23,7 +25,7 @@ public class BootstrapAlertsPage extends PageLayout {
         $x(alertsBox + "/button[contains(text(),'" + alertName + "')]").click();
         $x(alertNotification).shouldBe(Condition.visible);
         $x(alertNotification).shouldHave(Condition.text(alertName.toLowerCase()));
-        $x(alertNotification).waitUntil(Condition.hidden, 10000);
+        $x(alertNotification).shouldBe(Condition.hidden, Duration.ofSeconds(10));
         return this;
     }
 
