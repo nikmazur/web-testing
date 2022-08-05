@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.github.romankh3.image.comparison.ImageComparison;
 import com.github.romankh3.image.comparison.model.ImageComparisonResult;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
+import com.github.romankh3.image.comparison.model.Rectangle;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.testng.annotations.BeforeMethod;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import static com.codeborne.selenide.Screenshots.takeScreenShotAsImage;
@@ -48,15 +51,29 @@ public class ScreensBrowser {
 
     @Step("Compare current page screenshot with saved file")
     public void assertPage(String className, String methodName) {
-        assertScreens(className, methodName, null);
+        assertScreens(className, methodName, null, null);
     }
 
     @Step("Compare area of the current page screenshot with saved file")
     public void assertPageArea(String className, String methodName, SelenideElement elem) {
-        assertScreens(className, methodName, elem);
+        assertScreens(className, methodName, elem, null);
     }
 
-    private void assertScreens(String className, String methodName, SelenideElement elem) {
+    @Step("Compare current page screenshot (excluding ignored areas) with saved file")
+    public void assertPageWIgnore(String className, String methodName, List<Rectangle> ignores) {
+        assertScreens(className, methodName, null, ignores);
+    }
+
+    @Step("Calculate {0} coordinates for adding to ignore list")
+    public Rectangle calcElemLocation(String elemName, SelenideElement elem) {
+        int minX = elem.getRect().getX();
+        int minY = elem.getRect().getY();
+        int maxX = minX + elem.getRect().getWidth();
+        int maxY = minY + elem.getRect().getHeight();
+        return new Rectangle(minX, minY, maxX, maxY);
+    }
+
+    private void assertScreens(String className, String methodName, SelenideElement elem, List<Rectangle> ignores) {
         //Fluent wait for page to fully load using JS readyState
         Methods.waitForSuccess(()->
                         assertEquals(Selenide.executeJavaScript("return document.readyState").toString(), "complete"),
@@ -70,7 +87,13 @@ public class ScreensBrowser {
         //If SelenideElement is null - take screen of the whole page, else of the element
         BufferedImage actual = takeScreenShotAsImage(Objects.requireNonNullElseGet(elem, () -> $x("/html")));
 
-        ImageComparisonResult result = new ImageComparison(expected, actual).compareImages();
+        ImageComparisonResult result = new ImageComparison(expected, actual)
+                //Enable and set opacity for ignored areas (will be displayed as green on result image)
+                .setDrawExcludedRectangles(true).setExcludedRectangleFilling(true, 50)
+                .setExcludedAreas(ignores == null ? Collections.emptyList() : ignores)
+                //Set opacity for difference areas (will be displayed as red on result image)
+                .setDifferenceRectangleFilling(true, 50).compareImages();
+
         if(result.getImageComparisonState() == ImageComparisonState.MATCH) {
             attachPng("Result", result.getResult());
         } else {
