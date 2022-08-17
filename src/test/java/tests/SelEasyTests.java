@@ -1,6 +1,6 @@
 package tests;
 
-import helpers.Methods;
+import helpers.GeneralBrowser;
 import helpers.RandomPerson;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -9,10 +9,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.testng.annotations.Test;
 
+import static helpers.Methods.openSelEasy;
+
 @Epic("Web Testing")
 @Feature("Testing Selenium Easy website")
 @Test(groups = "SelEasy")
-public class SelEasyTests extends Methods {
+public class SelEasyTests extends GeneralBrowser {
 
     @Test(description = "Text input")
     @Description("Check simple input field with random text, which prints it back")
