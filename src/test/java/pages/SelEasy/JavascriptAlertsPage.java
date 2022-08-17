@@ -3,7 +3,6 @@ package pages.SelEasy;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
-import org.openqa.selenium.TimeoutException;
 
 import java.time.Duration;
 
@@ -25,7 +24,7 @@ public class JavascriptAlertsPage extends PageLayout {
         //Verify that the alert has closed by switching to it again and catching the exception
         try {
             Selenide.switchTo().alert();
-        } catch (TimeoutException ignored) {}
+        } catch (Error ignored) {}
         return this;
     }
 }

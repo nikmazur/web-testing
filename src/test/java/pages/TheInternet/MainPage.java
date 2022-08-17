@@ -23,7 +23,7 @@ public class MainPage {
     private String largeTableLink = "//a[@href='large.html']";
 
     public MainPage() {
-        $x(header).shouldHave(Condition.text("Welcome to the-internet"), Duration.ofSeconds(5));
+        $x(header).shouldHave(Condition.text("Welcome to the-internet"), Duration.ofSeconds(10));
         $(By.id(footer)).shouldBe(Condition.visible);
     }
 

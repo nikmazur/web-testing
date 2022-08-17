@@ -51,12 +51,12 @@ public class ScreensBrowser {
 
     @Step("Compare current page screenshot with saved file")
     public void assertPage(String className, String methodName) {
-        assertScreens(className, methodName, null, null);
+        assertScreens(className, methodName, null, Collections.emptyList());
     }
 
     @Step("Compare area of the current page screenshot with saved file")
     public void assertPageArea(String className, String methodName, SelenideElement elem) {
-        assertScreens(className, methodName, elem, null);
+        assertScreens(className, methodName, elem, Collections.emptyList());
     }
 
     @Step("Compare current page screenshot (excluding ignored areas) with saved file")
@@ -89,8 +89,7 @@ public class ScreensBrowser {
 
         ImageComparisonResult result = new ImageComparison(expected, actual)
                 //Enable and set opacity for ignored areas (will be displayed as green on result image)
-                .setDrawExcludedRectangles(true).setExcludedRectangleFilling(true, 50)
-                .setExcludedAreas(ignores == null ? Collections.emptyList() : ignores)
+                .setDrawExcludedRectangles(true).setExcludedRectangleFilling(true, 50).setExcludedAreas(ignores)
                 //Set opacity for difference areas (will be displayed as red on result image)
                 .setDifferenceRectangleFilling(true, 50).compareImages();
 
@@ -116,6 +115,7 @@ public class ScreensBrowser {
         } catch (IOException ignored) {}
         return imageInByte;
     }
+
     @Attachment(value = "GIF", type = "image/gif")
     private static byte[] attachGif(String methodName, ImageComparisonResult res) {
         File gif = new File("build" + S + "resources" + S + "test" + S + methodName + ".gif");
