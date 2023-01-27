@@ -1,26 +1,35 @@
 package pages.TheInternet;
 
 import com.codeborne.selenide.Condition;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
 public class Dropdown {
 
-    private String content = "//div[@id='content']";
-    private String header = content + "//h3";
-    private String dropdown = content + "//select[@id='dropdown']";
-    private String selectedOption = dropdown + "//option[@selected='selected']";
+    private final String CONTENT = "//div[@id='content']";
+    private final String HEADER = CONTENT + "//h3";
+    private final String DROPDOWN = CONTENT + "//select[@id='dropdown']";
+    private final String SELECTEDOPTION = DROPDOWN + "//option[@selected='selected']";
 
     public Dropdown() {
-        $x(header).shouldHave(Condition.exactText("Dropdown List"));
-        $x(dropdown).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Dropdown List"));
+        $x(DROPDOWN).shouldBe(Condition.visible);
     }
 
-    @Step("Select option {0} from list, check text \"{text}\"")
-    public Dropdown selectOptionCheckValue(int index, String text) {
-        $x(dropdown + "//option[@value='" + index + "']").click();
-        $x(selectedOption).shouldHave(Condition.exactText(text));
+    @Step("Select option {0} from list")
+    @When("I select Option {int}")
+    public Dropdown selectOption(int index) {
+        $x(DROPDOWN + "//option[@value='" + index + "']").click();
+        return this;
+    }
+
+    @Step("Check dropdown text: \"{text}\"")
+    @Then("Dropdown text is {string}")
+    public Dropdown checkValue(String text) {
+        $x(SELECTEDOPTION).shouldHave(Condition.exactText(text));
         return this;
     }
 

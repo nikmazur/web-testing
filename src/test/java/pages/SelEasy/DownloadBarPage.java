@@ -9,23 +9,23 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class DownloadBarPage extends PageLayout {
 
-    private String header = "//h2";
-    private String downloadButton = "//button[@id='downloadButton']";
+    private final String HEADER = "//h2";
+    private final String DOWNLOADBUTTON = "//button[@id='downloadButton']";
 
-    private String dlDialog = "//div[@id='dialog']";
-    private String dlStatus = dlDialog + "/div[text()='Complete!']";
-    private String dialogButton = dlDialog + "/..//button[text()='Close']";
+    private final String DLDIALOG = "//div[@id='dialog']";
+    private final String DLSTATUS = DLDIALOG + "/div[text()='Complete!']";
+    private final String DIALOGBUTTON = DLDIALOG + "/..//button[text()='Close']";
 
     public DownloadBarPage() {
-        $x(header).shouldHave(Condition.exactText("JQuery UI Progress bar - Download Dialog"));
-        $x(downloadButton).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("JQuery UI Progress bar - Download Dialog"));
+        $x(DOWNLOADBUTTON).shouldBe(Condition.visible);
     }
 
     @Step("Press Start Download, wait until 1) dialog reads \"File download Complete!\" 2) button has Close text")
     public DownloadBarPage runDownload() {
-        $x(downloadButton).click();
-        $x(dlStatus).shouldBe(Condition.visible, Duration.ofSeconds(20));
-        $x(dialogButton).shouldBe(Condition.visible);
+        $x(DOWNLOADBUTTON).click();
+        $x(DLSTATUS).shouldBe(Condition.visible, Duration.ofSeconds(20));
+        $x(DIALOGBUTTON).shouldBe(Condition.visible);
         return this;
     }
 }

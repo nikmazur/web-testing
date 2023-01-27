@@ -6,27 +6,27 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class SimpleFormDemo extends PageLayout {
-    private String singleInputPanel = "//div[text()='Single Input Field']/..";
+    private final String SINGLEINPUTPANEL = "//div[text()='Single Input Field']/..";
 
-    private String singleInputForm = singleInputPanel + "//input[@id='user-message']";
-    private String showMessageButton = singleInputPanel + "//button[text()='Show Message']";
-    private String singleInputResult = singleInputPanel + "//div[@id='user-message']/*[@id='display']";
+    private final String SINGLEINPUTFORM = SINGLEINPUTPANEL + "//input[@id='user-message']";
+    private final String SHOWMESSAGEBUTTON = SINGLEINPUTPANEL + "//button[text()='Show Message']";
+    private final String SINGLEINPUTRESULT = SINGLEINPUTPANEL + "//div[@id='user-message']/*[@id='display']";
 
     public SimpleFormDemo() {
-        $x(singleInputPanel).shouldBe(Condition.visible);
+        $x(SINGLEINPUTPANEL).shouldBe(Condition.visible);
     }
 
     @Step("Input text, click Show Message, check result")
     public SimpleFormDemo inputTextCheckResult(String text) {
-        $x(singleInputForm).sendKeys(text);
-        $x(showMessageButton).click();
-        $x(singleInputResult).shouldHave(Condition.exactText(text));
+        $x(SINGLEINPUTFORM).sendKeys(text);
+        $x(SHOWMESSAGEBUTTON).click();
+        $x(SINGLEINPUTRESULT).shouldHave(Condition.exactText(text));
         return this;
     }
 
     @Step("Clear input field")
     public SimpleFormDemo clearSingleInput() {
-        $x(singleInputForm).clear();
+        $x(SINGLEINPUTFORM).clear();
         return this;
     }
 }

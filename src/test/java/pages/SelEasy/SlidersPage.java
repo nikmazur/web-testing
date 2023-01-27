@@ -12,10 +12,10 @@ import static org.testng.Assert.assertEquals;
 
 public class SlidersPage extends PageLayout {
 
-    private String header = "//h2";
+    private final String HEADER = "//h2";
 
     public SlidersPage() {
-        $x(header).shouldHave(Condition.exactText("Range Sliders"));
+        $x(HEADER).shouldHave(Condition.exactText("Range Sliders"));
     }
 
     @Step("Set Slider {sliderId} to: {newValue}")
@@ -27,9 +27,9 @@ public class SlidersPage extends PageLayout {
 
         final int EXPCOUNTER = sliderMover($x("//*[@id='slider" + sliderId + "']//input"), counter, newValue);
 
-        Methods.waitForSuccess(()-> {
-            assertEquals(Integer.parseInt($x("//*[@id='slider" + sliderId + "']//output").getText()), EXPCOUNTER);
-        }, 10, 250);
+        Methods.waitForSuccess(()->
+                        assertEquals(Integer.parseInt($x("//*[@id='slider" + sliderId + "']//output").getText()), EXPCOUNTER),
+                10, 250);
         return this;
     }
 

@@ -4,10 +4,8 @@ import helpers.GeneralBrowser;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
-
-import static helpers.Methods.openTheInternet;
+import pages.TheInternet.MainPage;
 
 @Epic("Web Testing")
 @Feature("Testing TheInternet website")
@@ -16,9 +14,9 @@ public class TheInternetTests extends GeneralBrowser {
 
     @Test(description = "Test login page, login & logout")
     public void testLogin() {
-        openTheInternet()
+        new MainPage()
                 .openFormAuth()
-                .inputLoginPass("tomsmith", "SuperSecretPassword!")
+                .inputLogin("tomsmith").inputPass("SuperSecretPassword!")
                 .submit()
                 .checkLoggedIn()
                 .logout()
@@ -27,7 +25,7 @@ public class TheInternetTests extends GeneralBrowser {
 
     @Test(description = "Checkbox test, switch state & assert")
     public void testCheckboxes() {
-        openTheInternet()
+        new MainPage()
                 .openCheckboxes()
                 .clickCheckbox(1)
                 .clickCheckbox(2)
@@ -37,45 +35,45 @@ public class TheInternetTests extends GeneralBrowser {
 
     @Test(description = "Select an option from a drop-down list")
     public void testList() {
-        openTheInternet()
+        new MainPage()
                 .openDropdown()
-                .selectOptionCheckValue(1, "Option 1")
-                .selectOptionCheckValue(2, "Option 2");
+                .selectOption(1).checkValue("Option 1")
+                .selectOption(2).checkValue("Option 2");
     }
 
     @Test(description = "Check keyboard presses")
     @Description("Test for checking keyboard presses. The page prints the last pressed key on the keyboard.")
     public void testKeyboard() {
-        openTheInternet()
+        new MainPage()
                 .openKeyPresses()
-                .pressKeyCheckResult(Keys.PAUSE, "PAUSE")
-                .pressKeyCheckResult(Keys.NUMPAD6, "NUMPAD6");
+                .pressKey("PAUSE").checkResult("PAUSE")
+                .pressKey("NUMPAD6").checkResult("NUMPAD6");
     }
 
 
     @Test(description = "Test for handling multiple browser windows")
     public void testNewWind() {
-        openTheInternet()
+        new MainPage()
                 .openWindows()
                 .openNewWindow()
-                .switchWindows();
+                .switchBackToMainWindow();
     }
 
     @Test(description = "Slider element test")
-    @Description("We move the slider by keyboard arrow presses and check the resulting value.")
+    @Description("Move the slider by keyboard arrow presses and check the resulting value.")
     public void testSliderVal() {
-        openTheInternet()
+        new MainPage()
                 .openSlider()
-                .moveSliderAssertValue('R', 1, "1")
-                .moveSliderAssertValue('R', 1.5, "2.5")
-                .moveSliderAssertValue('L', 0.5, "2")
-                .moveSliderAssertValue('L', 0.5, "1.5");
+                .moveSliderAssertValue(1, "right").checkValue("1")
+                .moveSliderAssertValue(1.5, "right").checkValue("2.5")
+                .moveSliderAssertValue(0.5, "left").checkValue("2")
+                .moveSliderAssertValue(0.5, "left").checkValue("1.5");
     }
 
     @Test(description = "Table test")
     @Description("Test large table with data (50 x 50 cells) by counting rows and columns, and selecting random cells")
     public void testTable() {
-        openTheInternet()
+        new MainPage()
                 .openLargeTable()
                 .runRandomSelections(10);
     }
