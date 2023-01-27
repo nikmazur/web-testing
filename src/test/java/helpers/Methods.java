@@ -10,13 +10,6 @@ public class Methods {
     final static String PROJ_PATH = new File("").getAbsolutePath();
     final static String S = File.separator;
 
-    @Step("Open TheInternet home page")
-    public static pages.TheInternet.MainPage openTheInternet() {
-        // Opens local site mirror in the proj directory
-        Selenide.open("file://" + PROJ_PATH + S + "sites" + S + "theinternet" + S + "index.html");
-        return new pages.TheInternet.MainPage();
-    }
-
     @Step("Open Selenium Easy home page")
     public static pages.SelEasy.MainPage openSelEasy() {
         Selenide.open("file://" + PROJ_PATH + S + "sites" + S + "seleniumeasy" + S + "index.html");

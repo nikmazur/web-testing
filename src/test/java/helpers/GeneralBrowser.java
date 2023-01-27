@@ -26,10 +26,10 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class GeneralBrowser {
 
-    final Properties PROP = ConfigFactory.create(Properties.class);
+    final static Properties PROP = ConfigFactory.create(Properties.class);
 
     @BeforeMethod(alwaysRun = true, description = "Browser Setup")
-    public void setup() throws MalformedURLException {
+    public static void setup() throws MalformedURLException {
         Allure.addAttachment("Remote", String.valueOf(PROP.remote()));
 
         if(!PROP.remote()) {
