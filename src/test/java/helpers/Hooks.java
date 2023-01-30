@@ -8,7 +8,6 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 
 import java.net.MalformedURLException;
-import java.util.Base64;
 
 public class Hooks {
 
@@ -19,9 +18,7 @@ public class Hooks {
 
     @After
     public void afterScenario(Scenario scenario) {
-        byte[] screenshot = Base64.getDecoder().decode(Selenide.screenshot(OutputType.BASE64));
-        scenario.attach(screenshot, "image/png", scenario.getName());
-
+        scenario.attach(Selenide.screenshot(OutputType.BYTES), "image/png", scenario.getName());
         WebDriverRunner.driver().close();
     }
 }

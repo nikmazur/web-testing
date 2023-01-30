@@ -1,5 +1,6 @@
 package tests;
 
+import helpers.Methods;
 import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.FeatureWrapper;
 import io.cucumber.testng.PickleWrapper;
@@ -9,14 +10,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+
 @CucumberOptions(
         features = "src/test/resources/TheInternet.feature",
         glue = {"helpers", "pages.TheInternet"},
-        plugin = {
-                "pretty",
-                "html:target/cucumber-reports/cucumber-pretty",
-                "json:target/cucumber-reports/CucumberTestReport.json",
-                "rerun:target/cucumber-reports/rerun.txt" },
+        plugin = { "pretty",
+                "html:target/cucumber-reports/cucumber-pretty" },
         publish = true)
 
 public class CucumberRunner {
@@ -39,7 +41,10 @@ public class CucumberRunner {
     }
 
     @AfterClass(alwaysRun = true)
-    public void tearDownClass() {
+    public void tearDownClass() throws IOException {
         testNGCucumberRunner.finish();
+        // Automatically opens the generated Cucumber report in default browser
+        Desktop.getDesktop().browse(URI.create("file://" + Methods.PROJ_PATH +
+                Methods.S + "target" + Methods.S + "cucumber-reports" + Methods.S + "cucumber-pretty"));
     }
 }

@@ -7,8 +7,8 @@ import java.io.File;
 
 public class Methods {
 
-    final static String PROJ_PATH = new File("").getAbsolutePath();
-    final static String S = File.separator;
+    final static public String PROJ_PATH = new File("").getAbsolutePath();
+    final static public String S = File.separator;
 
     @Step("Open Selenium Easy home page")
     public static pages.SelEasy.MainPage openSelEasy() {

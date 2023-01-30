@@ -1,26 +1,23 @@
 package helpers;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-import static com.codeborne.selenide.Screenshots.takeScreenShotAsFile;
 import static com.codeborne.selenide.WebDriverRunner.source;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
@@ -55,15 +52,7 @@ public class GeneralBrowser {
 
     @Attachment(value = "{name}", type = "image/png")
     private byte[] screenshot(String name) {
-        File screen = takeScreenShotAsFile();
-        byte[] buffer = new byte[(int) screen.length()];
-        InputStream is;
-        try {
-            is = new FileInputStream(screen);
-            is.read(buffer);
-            is.close();
-        } catch (IOException ignored) {}
-        return buffer;
+        return Selenide.screenshot(OutputType.BYTES);
     }
 
     @Attachment(type = "text/html")
