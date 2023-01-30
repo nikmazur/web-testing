@@ -15,7 +15,7 @@ Tests can also be executed through Cucumber:
 ```bash
 gradle clean test -Dgroups=Cucumber
 ```
-After the execution a link to the Cucumber report (instead of Allure) will be generated to the console. Report will contain results, steps and attached screenshots for each test.
+After execution a Cucumber report (instead of Allure) will be automatically opened in the default browser. Report will contain results, steps and attached screenshots for each test.
 
 ## Allure Report Example
 ![alt text](https://github.com/nikmazur/Web-Testing/raw/master/bin/allure_screen.png "Allure Report")
