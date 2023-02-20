@@ -1,4 +1,4 @@
-package pages.TheInternet;
+package pages.theinternet;
 
 import com.codeborne.selenide.Condition;
 import io.cucumber.java.ParameterType;
@@ -9,35 +9,35 @@ import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Selenide.$x;
 
-public class Slider {
+public class SliderPage {
 
-    private final String CONTENT = "//div[@id='content']";
-    private final String HEADER = CONTENT + "//h3";
-    private final String SLIDER = CONTENT + "//input[@type='range']";
-    private final String VALUE = CONTENT + "//span[@id='range']";
+    private static final String content = "//div[@id='content']";
+    private static final String header = content + "//h3";
+    private static final String slider = content + "//input[@type='range']";
+    private static final String value = content + "//span[@id='range']";
 
-    public Slider() {
-        $x(HEADER).shouldHave(Condition.exactText("Horizontal Slider"));
-        $x(SLIDER).shouldBe(Condition.visible);
+    public SliderPage() {
+        $x(header).shouldHave(Condition.exactText("Horizontal Slider"));
+        $x(slider).shouldBe(Condition.visible);
     }
 
     @Step("Move slider {direction} by {range}")
     @When("I move the slider {rangeValue} times to the {word}")
-    public Slider moveSliderAssertValue(double range, String direction) {
+    public SliderPage moveSliderAssertValue(double range, String direction) {
         if(direction.equals("right"))
             for(double i = 0; i < range; i += 0.5)
-                $x(SLIDER).sendKeys(Keys.ARROW_RIGHT);
+                $x(slider).sendKeys(Keys.ARROW_RIGHT);
         else if(direction.equals("left"))
             for(double i = 0; i < range; i += 0.5)
-                $x(SLIDER).sendKeys(Keys.ARROW_LEFT);
+                $x(slider).sendKeys(Keys.ARROW_LEFT);
 
         return this;
     }
 
     @Step("Verify result: {result}")
     @Then("Slider value is {word}")
-    public Slider checkValue(String result) {
-        $x(VALUE).shouldHave(Condition.exactText(result));
+    public SliderPage checkValue(String result) {
+        $x(value).shouldHave(Condition.exactText(result));
         return this;
     }
 

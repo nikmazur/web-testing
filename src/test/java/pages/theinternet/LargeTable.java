@@ -1,4 +1,4 @@
-package pages.TheInternet;
+package pages.theinternet;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
@@ -12,22 +12,22 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class LargeTable {
 
-    private final String CONTENT = "//div[@id='content']";
-    private final String HEADER = CONTENT + "//h3";
-    private final String TABLE = CONTENT + "//table[@id='large-table']";
+    private static final String content = "//div[@id='content']";
+    private static final String header = content + "//h3";
+    private static final String table = content + "//table[@id='large-table']";
 
     private static SoftAssert sAssert;
 
     public LargeTable() {
-        $x(HEADER).shouldHave(Condition.exactText("Large & Deep DOM"));
-        $x(TABLE).shouldBe(Condition.visible);
+        $x(header).shouldHave(Condition.exactText("Large & Deep DOM"));
+        $x(table).shouldBe(Condition.visible);
 
-        $$x(TABLE + "//th").shouldHave(CollectionCondition.size(50));
-        $$x(TABLE + "//tr").shouldHave(CollectionCondition.size(51));
+        $$x(table + "//th").shouldHave(CollectionCondition.size(50));
+        $$x(table + "//tr").shouldHave(CollectionCondition.size(51));
     }
 
     @Step("Select {runs} random cells and verify their values")
-    public LargeTable runRandomSelections(int runs) {
+    public synchronized LargeTable runRandomSelections(int runs) {
         //Using soft assert so that the test will continue even if any assert fails
         sAssert = new SoftAssert();
 
@@ -40,7 +40,7 @@ public class LargeTable {
 
     @Step("Verify that row {row} column {column} has text: {row}.{column}")
     private void selectVerifyRandomCell(int row, int column) {
-        SelenideElement cell = $x(TABLE +
+        SelenideElement cell = $x(table +
                 "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']");
 
         //Cell content format: "RowNumber.ColumnNumber"
@@ -49,7 +49,7 @@ public class LargeTable {
 
     @Then("Row {int} column {int} should have text {word}")
     public void checkCell(int row, int column, String cellText) {
-        $x(TABLE + "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']")
+        $x(table + "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']")
                 .shouldHave(Condition.text(cellText));
     }
 }

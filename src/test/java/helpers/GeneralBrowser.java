@@ -23,7 +23,7 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class GeneralBrowser {
 
-    final static Properties PROP = ConfigFactory.create(Properties.class);
+    static final Properties PROP = ConfigFactory.create(Properties.class);
 
     @BeforeMethod(alwaysRun = true, description = "Browser Setup")
     public static void setup() throws MalformedURLException {
@@ -46,7 +46,7 @@ public class GeneralBrowser {
     @AfterMethod(alwaysRun = true, description = "Save page screenshot and HTML")
     public void saveScreenAndHTML() {
         screenshot("Screen " + url());
-        HTML();
+        html();
         WebDriverRunner.driver().close();
     }
 
@@ -56,7 +56,7 @@ public class GeneralBrowser {
     }
 
     @Attachment(type = "text/html")
-    private byte[] HTML() {
+    private byte[] html() {
         return source().getBytes(StandardCharsets.UTF_8);
     }
 }

@@ -1,4 +1,4 @@
-package pages.TheInternet;
+package pages.theinternet;
 
 import com.codeborne.selenide.Condition;
 import io.cucumber.java.ParameterType;
@@ -10,19 +10,20 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Checkboxes {
 
-    private final String CONTENT = "//div[@id='content']";
-    private final String HEADER = CONTENT + "//h3";
-    private final String FORM = CONTENT + "//form[@id='checkboxes']";
+    private static final String content = "//div[@id='content']";
+    private static final String header = content + "//h3";
+    private static final String form = content + "//form[@id='checkboxes']";
+    private static final String input = form + "/input[";
 
     public Checkboxes() {
-        $x(HEADER).shouldHave(Condition.exactText("Checkboxes"));
-        $x(FORM).shouldBe(Condition.visible);
+        $x(header).shouldHave(Condition.exactText("Checkboxes"));
+        $x(form).shouldBe(Condition.visible);
     }
 
     @Step("Click on checkbox {index}")
     @When("I click on Checkbox {int}")
     public Checkboxes clickCheckbox(int index) {
-        $x(FORM + "/input[" + index + "]").click();
+        $x(input + index + "]").click();
         return this;
     }
 
@@ -30,9 +31,9 @@ public class Checkboxes {
     @Then("Checkbox {int} is {booleanValue}")
     public Checkboxes verifyCheckbox(int index, boolean checked) {
         if(checked)
-            $x(FORM + "/input[" + index + "]").shouldBe(Condition.value("on"));
+            $x(input + index + "]").shouldBe(Condition.value("on"));
         else
-            $x(FORM + "/input[" + index + "]").shouldNotBe(Condition.value("off"));
+            $x(input + index + "]").shouldNotBe(Condition.value("off"));
         return this;
     }
 

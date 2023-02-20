@@ -1,4 +1,4 @@
-package pages.TheInternet;
+package pages.theinternet;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -7,22 +7,23 @@ import io.cucumber.java.en.When;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
+import static org.testng.Assert.assertEquals;
 
 public class Windows {
-    private final String CONTENT = "//div[@id='content']";
-    private final String HEADER = CONTENT + "//h3";
-    private final String NEWWINLINK = CONTENT + "//a[@href='windows/new.html']";
+    private static final String content = "//div[@id='content']";
+    private static final String header = content + "//h3";
+    private static final String newWindowLink = content + "//a[@href='windows/new.html']";
 
     public Windows() {
         checkPageTitle("The Internet");
-        $x(HEADER).shouldHave(Condition.text("Opening a new window"));
-        $x(NEWWINLINK).shouldBe(Condition.visible);
+        $x(header).shouldHave(Condition.text("Opening a new window"));
+        $x(newWindowLink).shouldBe(Condition.visible);
     }
 
     @Step("Check page title: {pageTitle}")
     @Then("Page title should be {string}")
     public void checkPageTitle(String pageTitle) {
-        Selenide.title().equals(pageTitle);
+        assertEquals(pageTitle, Selenide.title());
     }
 
     @Step("Switch to tab: {windowName}")
@@ -34,18 +35,19 @@ public class Windows {
     @Step("Click on the link to open new tab")
     @When("I click link to open New Window")
     public NewWindow openNewWindow() {
-        $x(NEWWINLINK).click();
+        $x(newWindowLink).click();
         return new NewWindow();
     }
 
     public class NewWindow {
 
-        private final String HEADER = "//div[@class='example']//h3";
+        private static final String header = "//div[@class='example']//h3";
+        private static final String nWindow = "New Window";
 
         public NewWindow() {
-            switchToWindow("New Window");
-            $x(HEADER).shouldHave(Condition.text("New Window"));
-            checkPageTitle("New Window");
+            switchToWindow(nWindow);
+            $x(header).shouldHave(Condition.text(nWindow));
+            checkPageTitle(nWindow);
         }
 
         @Step("Switch back to previous tab")

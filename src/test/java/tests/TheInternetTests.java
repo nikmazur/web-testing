@@ -5,7 +5,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
-import pages.TheInternet.MainPage;
+import pages.theinternet.MainPage;
 
 @Epic("Web Testing")
 @Feature("Testing TheInternet website")
