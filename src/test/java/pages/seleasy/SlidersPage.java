@@ -12,24 +12,24 @@ import static org.testng.Assert.assertEquals;
 
 public class SlidersPage extends PageLayout {
 
-    private static final String header = "//h2";
-    private static final String slider = "//*[@id='slider";
+    final String HEADER = "//h2";
+    final String SLIDER = "//*[@id='slider";
 
     public SlidersPage() {
-        $x(header).shouldHave(Condition.exactText("Range Sliders"));
+        $x(HEADER).shouldHave(Condition.exactText("Range Sliders"));
     }
 
     @Step("Set Slider {sliderId} to: {newValue}")
     public SlidersPage moveSlider(String sliderId, int newValue) {
-        int counter = Integer.parseInt($x(slider + sliderId + "']//output").getText());
+        var counter = Integer.parseInt($x(SLIDER + sliderId + "']//output").getText());
 
         if(counter == newValue)
             Assert.fail("New value same as current slider value. Please select a different number.");
 
-        final int EXPCOUNTER = sliderMover($x(slider + sliderId + "']//input"), counter, newValue);
+        final var EXP_COUNTER = sliderMover($x(SLIDER + sliderId + "']//input"), counter, newValue);
 
         Methods.waitForSuccess(()->
-                        assertEquals(Integer.parseInt($x(slider + sliderId + "']//output").getText()), EXPCOUNTER),
+                        assertEquals(Integer.parseInt($x(SLIDER + sliderId + "']//output").getText()), EXP_COUNTER),
                 10, 250);
         return this;
     }
@@ -37,7 +37,7 @@ public class SlidersPage extends PageLayout {
     @Step("Move from {counter} to {newValue}")
     private int sliderMover(SelenideElement slider, int counter, int newValue) {
         //Using Math.abs to get the absolute difference
-        final int DIFF = Math.abs(newValue - counter);
+        final var DIFF = Math.abs(newValue - counter);
         for(int i = 0; i < DIFF; i++) {
             if (newValue > counter) {
                 //If counter is lower, move slider right by pressing Right Arrow key and increase counter

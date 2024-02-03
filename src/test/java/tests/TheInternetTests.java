@@ -5,6 +5,8 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
+import pages.theinternet.FormAuthFail;
+import pages.theinternet.FormAuthSuccess;
 import pages.theinternet.MainPage;
 
 @Epic("Web Testing")
@@ -12,15 +14,24 @@ import pages.theinternet.MainPage;
 @Test(groups = "TheInternet")
 public class TheInternetTests extends GeneralBrowser {
 
-    @Test(description = "Test login page, login & logout")
-    public void testLogin() {
+    @Test(description = "Test login successful, login & logout")
+    public void testLoginSuccess() {
         new MainPage()
                 .openFormAuth()
                 .inputLogin("tomsmith").inputPass("SuperSecretPassword!")
-                .submit()
+                .submit(FormAuthSuccess.class)
                 .checkLoggedIn()
                 .logout()
                 .checkLoggedOut();
+    }
+
+    @Test(description = "Test login failed")
+    public void testLoginFail() {
+        new MainPage()
+                .openFormAuth()
+                .inputLogin("bad login").inputPass("bad pass")
+                .submit(FormAuthFail.class)
+                .checkLoginFailed();
     }
 
     @Test(description = "Checkbox test, switch state & assert")

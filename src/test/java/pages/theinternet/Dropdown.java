@@ -9,27 +9,27 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Dropdown {
 
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h3";
-    private static final String list = content + "//select[@id='dropdown']";
-    private static final String selectedOption = list + "//option[@selected='selected']";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h3";
+    final String LIST = CONTENT + "//select[@id='dropdown']";
+    final String SELECTED_OPTION = LIST + "//option[@selected='selected']";
 
     public Dropdown() {
-        $x(header).shouldHave(Condition.exactText("Dropdown List"));
-        $x(list).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Dropdown List"));
+        $x(LIST).shouldBe(Condition.visible);
     }
 
     @Step("Select option {0} from list")
     @When("I select Option {int}")
     public Dropdown selectOption(int index) {
-        $x(list + "//option[@value='" + index + "']").click();
+        $x(LIST + "//option[@value='" + index + "']").click();
         return this;
     }
 
     @Step("Check dropdown text: \"{text}\"")
     @Then("Dropdown text is {string}")
     public Dropdown checkValue(String text) {
-        $x(selectedOption).shouldHave(Condition.exactText(text));
+        $x(SELECTED_OPTION).shouldHave(Condition.exactText(text));
         return this;
     }
 

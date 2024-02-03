@@ -7,24 +7,24 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class PageLayout {
 
-    private static final String logo = "//div[@class='logo']";
-    private static final String footer = "//footer[@class='footer']";
-    private static final String menu = "//*[@id='treemenu']";
+    final String LOGO = "//div[@class='logo']";
+    final String FOOTER = "//footer[@class='footer']";
+    final String MENU = "//*[@id='treemenu']";
 
-    private static final String menuInputForms = menu + "//a[text()='Input Forms']";
-    private static final String simpleFormDemo = menuInputForms + "/..//a[text()='Simple Form Demo']";
-    private static final String inputFormSubmit = menuInputForms + "/..//a[text()='Input Form Submit']";
+    final String MENU_INPUT_FORMS = MENU + "//a[text()='Input Forms']";
+    final String SIMPLE_FORM_DEMO = MENU_INPUT_FORMS + "/..//a[text()='Simple Form Demo']";
+    final String INPUT_FORM_SUBMIT = MENU_INPUT_FORMS + "/..//a[text()='Input Form Submit']";
 
-    private static final String menuTable = menu + "//a[text()='Table']";
-    private static final String tableDataSearch = menuTable + "/..//a[text()='Table Data Search']";
+    final String MENU_TABLE = MENU + "//a[text()='Table']";
+    final String TABLE_DATA_SEARCH = MENU_TABLE + "/..//a[text()='Table Data Search']";
 
-    private static final String menuProgressBars = menu + "//a[text()='Progress Bars & Sliders']";
-    private static final String downloadBar = menuProgressBars + "/..//a[text()='JQuery Download Progress bars']";
-    private static final String menuSliders = menuProgressBars + "/..//a[text()='Drag & Drop Sliders']";
+    final String MENU_PROGRESS_BARS = MENU + "//a[text()='Progress Bars & Sliders']";
+    final String DOWNLOAD_BAR = MENU_PROGRESS_BARS + "/..//a[text()='JQuery Download Progress bars']";
+    final String MENU_SLIDERS = MENU_PROGRESS_BARS + "/..//a[text()='Drag & Drop Sliders']";
 
-    private static final String menuAlerts = menu + "//a[text()='Alerts & Modals']";
-    private static final String bootstrapAlerts = menuAlerts + "/..//a[text()='Bootstrap Alerts']";
-    private static final String javascriptAlerts = menuAlerts + "/..//a[text()='Javascript Alerts']";
+    final String MENU_ALERTS = MENU + "//a[text()='Alerts & Modals']";
+    final String BOOTSTRAP_ALERTS = MENU_ALERTS + "/..//a[text()='Bootstrap Alerts']";
+    final String JS_ALERTS = MENU_ALERTS + "/..//a[text()='Javascript Alerts']";
 
     public PageLayout() {
         checkGeneralLayout();
@@ -32,57 +32,57 @@ public class PageLayout {
 
     @Step("Check that page layout is loaded (Logo, Menu, Footer)")
     private void checkGeneralLayout() {
-        $x(logo).shouldBe(Condition.visible);
-        $x(menu).shouldBe(Condition.visible);
-        $x(footer).shouldBe(Condition.visible);
+        $x(LOGO).shouldBe(Condition.visible);
+        $x(MENU).shouldBe(Condition.visible);
+        $x(FOOTER).shouldBe(Condition.visible);
     }
 
     @Step("Open Simple Form Demo page from the menu")
     public SimpleFormDemo openSimpleFormDemo() {
-        $x(menuInputForms).click();
-        $x(simpleFormDemo).click();
+        $x(MENU_INPUT_FORMS).click();
+        $x(SIMPLE_FORM_DEMO).click();
         return new SimpleFormDemo();
     }
 
     @Step("Open Input Form Submit page from the menu")
     public InputFormSubmit openInputFormSubmit() {
-        $x(menuInputForms).click();
-        $x(inputFormSubmit).click();
+        $x(MENU_INPUT_FORMS).click();
+        $x(INPUT_FORM_SUBMIT).click();
         return new InputFormSubmit();
     }
 
     @Step("Open Input Form Submit page from the menu")
     public TableDataSearch openTableDataSearch() {
-        $x(menuTable).click();
-        $x(tableDataSearch).click();
+        $x(MENU_TABLE).click();
+        $x(TABLE_DATA_SEARCH).click();
         return new TableDataSearch();
     }
 
     @Step("Open Download Progress Bar page from the menu")
     public DownloadBarPage openDownloadBarPage() {
-        $x(menuProgressBars).click();
-        $x(downloadBar).click();
+        $x(MENU_PROGRESS_BARS).click();
+        $x(DOWNLOAD_BAR).click();
         return new DownloadBarPage();
     }
 
     @Step("Open Drag & Drop Sliders page from the menu")
     public SlidersPage openSlidersPage() {
-        $x(menuProgressBars).click();
-        $x(menuSliders).click();
+        $x(MENU_PROGRESS_BARS).click();
+        $x(MENU_SLIDERS).click();
         return new SlidersPage();
     }
 
     @Step("Open Bootstrap Alerts page from the menu")
     public BootstrapAlertsPage openBootstrapAlertsPage() {
-        $x(menuAlerts).click();
-        $x(bootstrapAlerts).click();
+        $x(MENU_ALERTS).click();
+        $x(BOOTSTRAP_ALERTS).click();
         return new BootstrapAlertsPage();
     }
 
     @Step("Open Javascript Alerts page from the menu")
     public JavascriptAlertsPage openJavascriptAlertsPage() {
-        $x(menuAlerts).click();
-        $x(javascriptAlerts).click();
+        $x(MENU_ALERTS).click();
+        $x(JS_ALERTS).click();
         return new JavascriptAlertsPage();
     }
 }

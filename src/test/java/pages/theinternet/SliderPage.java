@@ -11,14 +11,14 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class SliderPage {
 
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h3";
-    private static final String slider = content + "//input[@type='range']";
-    private static final String value = content + "//span[@id='range']";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h3";
+    final String SLIDER = CONTENT + "//input[@type='range']";
+    final String VALUE = CONTENT + "//span[@id='range']";
 
     public SliderPage() {
-        $x(header).shouldHave(Condition.exactText("Horizontal Slider"));
-        $x(slider).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Horizontal Slider"));
+        $x(SLIDER).shouldBe(Condition.visible);
     }
 
     @Step("Move slider {direction} by {range}")
@@ -26,10 +26,10 @@ public class SliderPage {
     public SliderPage moveSliderAssertValue(double range, String direction) {
         if(direction.equals("right"))
             for(double i = 0; i < range; i += 0.5)
-                $x(slider).sendKeys(Keys.ARROW_RIGHT);
+                $x(SLIDER).sendKeys(Keys.ARROW_RIGHT);
         else if(direction.equals("left"))
             for(double i = 0; i < range; i += 0.5)
-                $x(slider).sendKeys(Keys.ARROW_LEFT);
+                $x(SLIDER).sendKeys(Keys.ARROW_LEFT);
 
         return this;
     }
@@ -37,7 +37,7 @@ public class SliderPage {
     @Step("Verify result: {result}")
     @Then("Slider value is {word}")
     public SliderPage checkValue(String result) {
-        $x(value).shouldHave(Condition.exactText(result));
+        $x(VALUE).shouldHave(Condition.exactText(result));
         return this;
     }
 

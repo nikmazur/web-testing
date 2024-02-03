@@ -10,14 +10,14 @@ import static com.codeborne.selenide.Selenide.$x;
 import static org.testng.Assert.assertEquals;
 
 public class Windows {
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h3";
-    private static final String newWindowLink = content + "//a[@href='windows/new.html']";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h3";
+    final String NEW_WINDOW = CONTENT + "//a[@href='windows/new.html']";
 
     public Windows() {
         checkPageTitle("The Internet");
-        $x(header).shouldHave(Condition.text("Opening a new window"));
-        $x(newWindowLink).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.text("Opening a new window"));
+        $x(NEW_WINDOW).shouldBe(Condition.visible);
     }
 
     @Step("Check page title: {pageTitle}")
@@ -35,19 +35,19 @@ public class Windows {
     @Step("Click on the link to open new tab")
     @When("I click link to open New Window")
     public NewWindow openNewWindow() {
-        $x(newWindowLink).click();
+        $x(NEW_WINDOW).click();
         return new NewWindow();
     }
 
     public class NewWindow {
 
-        private static final String header = "//div[@class='example']//h3";
-        private static final String nWindow = "New Window";
+        final String HEADER = "//div[@class='example']//h3";
+        final String NEW_WINDOW = "New Window";
 
         public NewWindow() {
-            switchToWindow(nWindow);
-            $x(header).shouldHave(Condition.text(nWindow));
-            checkPageTitle(nWindow);
+            switchToWindow(NEW_WINDOW);
+            $x(HEADER).shouldHave(Condition.text(NEW_WINDOW));
+            checkPageTitle(NEW_WINDOW);
         }
 
         @Step("Switch back to previous tab")

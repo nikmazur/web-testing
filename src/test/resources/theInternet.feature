@@ -2,21 +2,6 @@ Feature: The Internet Tests
 
   Background: User opens The Internet home page
 
-  Scenario: Basic Login
-    Given I am on the Basic Auth page
-    When I enter login tomsmith
-    And I enter password SuperSecretPassword!
-    And I press Submit
-    Then I am logged in
-
-  Scenario: Basic Logout
-    Given I am on the Basic Auth page
-    When I enter login tomsmith
-    And I enter password SuperSecretPassword!
-    And I press Submit
-    And I press Logout
-    Then I am logged out
-
   Scenario: Click Checkboxes
     Given I am on the Checkboxes page
     When I click on Checkbox 1

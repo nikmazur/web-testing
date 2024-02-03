@@ -10,20 +10,20 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Checkboxes {
 
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h3";
-    private static final String form = content + "//form[@id='checkboxes']";
-    private static final String input = form + "/input[";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h3";
+    final String FORM = CONTENT + "//form[@id='checkboxes']";
+    final String INPUT = FORM + "/input[";
 
     public Checkboxes() {
-        $x(header).shouldHave(Condition.exactText("Checkboxes"));
-        $x(form).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Checkboxes"));
+        $x(FORM).shouldBe(Condition.visible);
     }
 
     @Step("Click on checkbox {index}")
     @When("I click on Checkbox {int}")
     public Checkboxes clickCheckbox(int index) {
-        $x(input + index + "]").click();
+        $x(INPUT + index + "]").click();
         return this;
     }
 
@@ -31,9 +31,9 @@ public class Checkboxes {
     @Then("Checkbox {int} is {booleanValue}")
     public Checkboxes verifyCheckbox(int index, boolean checked) {
         if(checked)
-            $x(input + index + "]").shouldBe(Condition.value("on"));
+            $x(INPUT + index + "]").shouldBe(Condition.value("on"));
         else
-            $x(input + index + "]").shouldNotBe(Condition.value("off"));
+            $x(INPUT + index + "]").shouldNotBe(Condition.value("off"));
         return this;
     }
 

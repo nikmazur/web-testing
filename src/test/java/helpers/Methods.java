@@ -2,6 +2,8 @@ package helpers;
 
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 
 import java.io.File;
 import java.util.concurrent.locks.LockSupport;
@@ -10,6 +12,7 @@ public class Methods {
 
     public static final String PROJ_PATH = new File("").getAbsolutePath();
     public static final String S = File.separator;
+    public static final UniformRandomProvider RNG = RandomSource.XO_RO_SHI_RO_64_S.create();
 
     @Step("Open Selenium Easy home page")
     public static pages.seleasy.MainPage openSelEasy() {
@@ -35,6 +38,15 @@ public class Methods {
     @Step("Step {i}")
     private static void execStep(int i, Runnable runnable) {
         runnable.run();
+    }
+
+    // Method for returning new passed class instance
+    public static <T> T newInstance(Class<T> tClass) {
+        try {
+            return tClass.getDeclaredConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

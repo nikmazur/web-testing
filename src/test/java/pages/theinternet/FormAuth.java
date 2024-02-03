@@ -1,75 +1,45 @@
 package pages.theinternet;
 
 import com.codeborne.selenide.Condition;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import helpers.Methods;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
 public class FormAuth {
 
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h2";
-    private static final String form = content + "//form[@id='login']";
-    private static final String msg = "//*[@id='flash']";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h2";
+    final String FORM = CONTENT + "//form[@id='login']";
 
-    private static final String username = form + "//input[@id='username']";
-    private static final String password = form + "//input[@id='password']";
+    final String USERNAME = FORM + "//input[@id='username']";
+    final String PASSWORD = FORM + "//input[@id='password']";
 
-    private static final String submit = form + "//button[@type='submit']";
-    private static final String logout = content + "//*[@href='/logout']";
+    final String SUBMIT = FORM + "//button[@type='submit']";
 
     public FormAuth() {
-        $x(header).shouldHave(Condition.exactText("Login Page"));
-        $x(submit).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Login Page"));
+        $x(SUBMIT).shouldBe(Condition.visible);
     }
 
     @Step("Type username")
-    @When("I enter login {word}")
     public FormAuth inputLogin(String login) {
-        $x(username).sendKeys(login);
+        $x(USERNAME).sendKeys(login);
         return this;
     }
 
     @Step("Type password")
-    @When("I enter password {word}")
     public FormAuth inputPass(String pass) {
-        $x(password).sendKeys(pass);
+        $x(PASSWORD).sendKeys(pass);
         return this;
     }
 
+    // Example of generic method which returns new class of type passed as argument.
+    // Can be used in cases where a single action can lead to multiple different pages.
     @Step("Press Submit")
-    @When("I press Submit")
-    public FormAuth submit() {
-        $x(submit).click();
-        return this;
-    }
-
-    @Step("Check that we have been logged in successfully")
-    @Then("I am logged in")
-    public FormAuth checkLoggedIn() {
-        $x(msg).shouldHave(Condition.text("You logged into a secure area!"));
-        $x(header).shouldHave(Condition.exactText("Secure Area"));
-        $x(logout).shouldBe(Condition.visible);
-        return this;
-    }
-
-    @Step("Press Logout")
-    @When("I press Logout")
-    public FormAuth logout() {
-        $x(logout).click();
-        return this;
-    }
-
-    @Step("Check that we have been logged out")
-    @Then("I am logged out")
-    public FormAuth checkLoggedOut() {
-        $x(msg).shouldHave(Condition.text("You logged out of the secure area!"));
-        $x(username).shouldBe(Condition.visible);
-        $x(password).shouldBe(Condition.visible);
-        $x(submit).shouldBe(Condition.visible);
-        return this;
+    public <T> T submit(Class<T> tClass) {
+        $x(SUBMIT).click();
+        return Methods.newInstance(tClass);
     }
 
 

@@ -2,37 +2,34 @@ package pages.theinternet;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
+import helpers.Methods;
 import io.cucumber.java.en.Then;
 import io.qameta.allure.Step;
-import org.apache.commons.lang3.RandomUtils;
 import org.testng.asserts.SoftAssert;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class LargeTable {
 
-    private static final String content = "//div[@id='content']";
-    private static final String header = content + "//h3";
-    private static final String table = content + "//table[@id='large-table']";
+    final String CONTENT = "//div[@id='content']";
+    final String HEADER = CONTENT + "//h3";
+    final String TABLE = CONTENT + "//table[@id='large-table']";
 
-    private static SoftAssert sAssert;
+    SoftAssert sAssert = new SoftAssert();
 
     public LargeTable() {
-        $x(header).shouldHave(Condition.exactText("Large & Deep DOM"));
-        $x(table).shouldBe(Condition.visible);
+        $x(HEADER).shouldHave(Condition.exactText("Large & Deep DOM"));
+        $x(TABLE).shouldBe(Condition.visible);
 
-        $$x(table + "//th").shouldHave(CollectionCondition.size(50));
-        $$x(table + "//tr").shouldHave(CollectionCondition.size(51));
+        $$x(TABLE + "//th").shouldHave(CollectionCondition.size(50));
+        $$x(TABLE + "//tr").shouldHave(CollectionCondition.size(51));
     }
 
     @Step("Select {runs} random cells and verify their values")
     public synchronized LargeTable runRandomSelections(int runs) {
         //Using soft assert so that the test will continue even if any assert fails
-        sAssert = new SoftAssert();
-
         for(int i = 0; i < runs; i++)
-            selectVerifyRandomCell(RandomUtils.nextInt(1, 51), RandomUtils.nextInt(1, 51));
+            selectVerifyRandomCell(Methods.RNG.nextInt(1, 51), Methods.RNG.nextInt(1, 51));
 
         sAssert.assertAll();
         return this;
@@ -40,7 +37,7 @@ public class LargeTable {
 
     @Step("Verify that row {row} column {column} has text: {row}.{column}")
     private void selectVerifyRandomCell(int row, int column) {
-        SelenideElement cell = $x(table +
+        var cell = $x(TABLE +
                 "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']");
 
         //Cell content format: "RowNumber.ColumnNumber"
@@ -49,7 +46,7 @@ public class LargeTable {
 
     @Then("Row {int} column {int} should have text {word}")
     public void checkCell(int row, int column, String cellText) {
-        $x(table + "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']")
+        $x(TABLE + "//tr[@class='row-" + row + "']/td[@class='column-" + column + "']")
                 .shouldHave(Condition.text(cellText));
     }
 }

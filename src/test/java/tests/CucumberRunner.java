@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.net.URI;
 
 @CucumberOptions(
-        features = "src/test/resources/TheInternet.feature",
-        glue = { "helpers", "pages.TheInternet" },
+        features = "src/test/resources/theInternet.feature",
+        glue = { "helpers", "pages.theinternet" },
         plugin = { "html:bin/cucumberReport.html" })
 
 public class CucumberRunner {
@@ -42,7 +42,7 @@ public class CucumberRunner {
     public void tearDownClass() throws IOException {
         testNGCucumberRunner.finish();
         // Automatically opens the generated Cucumber report in default browser
-        Desktop.getDesktop().browse(URI.create("file://" +
-                Methods.PROJ_PATH + Methods.S + "bin" + Methods.S + "cucumberReport.html"));
+        Desktop.getDesktop().browse(URI.create("file:///" +
+                Methods.PROJ_PATH.replace("\\", "/") + "/bin/cucumberReport.html"));
     }
 }
