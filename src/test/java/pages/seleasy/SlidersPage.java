@@ -38,7 +38,7 @@ public class SlidersPage extends PageLayout {
     private int sliderMover(SelenideElement slider, int counter, int newValue) {
         //Using Math.abs to get the absolute difference
         final var DIFF = Math.abs(newValue - counter);
-        for(int i = 0; i < DIFF; i++) {
+        for(var i = 0; i < DIFF; i++) {
             if (newValue > counter) {
                 //If counter is lower, move slider right by pressing Right Arrow key and increase counter
                 slider.sendKeys(Keys.ARROW_RIGHT);

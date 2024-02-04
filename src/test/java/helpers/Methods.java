@@ -23,7 +23,7 @@ public class Methods {
     @Step("Attempt multiple times until success")
     public static void waitForSuccess(Runnable run, int steps, int pause) {
         boolean success = false;
-        for(int i = 0; i < steps - 1; i++) {
+        for(var i = 0; i < steps - 1; i++) {
             try {
                 execStep(i, run);
                 success = true;

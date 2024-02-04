@@ -25,10 +25,10 @@ public class SliderPage {
     @When("I move the slider {rangeValue} times to the {word}")
     public SliderPage moveSliderAssertValue(double range, String direction) {
         if(direction.equals("right"))
-            for(double i = 0; i < range; i += 0.5)
+            for(var i = 0.0; i < range; i += 0.5)
                 $x(SLIDER).sendKeys(Keys.ARROW_RIGHT);
         else if(direction.equals("left"))
-            for(double i = 0; i < range; i += 0.5)
+            for(var i = 0.0; i < range; i += 0.5)
                 $x(SLIDER).sendKeys(Keys.ARROW_LEFT);
 
         return this;

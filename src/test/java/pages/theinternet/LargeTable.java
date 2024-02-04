@@ -28,7 +28,7 @@ public class LargeTable {
     @Step("Select {runs} random cells and verify their values")
     public synchronized LargeTable runRandomSelections(int runs) {
         //Using soft assert so that the test will continue even if any assert fails
-        for(int i = 0; i < runs; i++)
+        for(var i = 0; i < runs; i++)
             selectVerifyRandomCell(Methods.RNG.nextInt(1, 51), Methods.RNG.nextInt(1, 51));
 
         sAssert.assertAll();

@@ -1,12 +1,12 @@
 package tests;
 
 import helpers.GeneralBrowser;
+import helpers.Methods;
 import helpers.RandomPerson;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.testng.annotations.Test;
 
 import static helpers.Methods.openSelEasy;
@@ -59,8 +59,8 @@ public class SelEasyTests extends GeneralBrowser {
         openSelEasy()
                 .menu().openSlidersPage()
                 .moveSlider("1", 26)
-                .moveSlider("2", RandomUtils.nextInt(1, 101))
-                .moveSlider("6", RandomUtils.nextInt(1, 101));
+                .moveSlider("2", Methods.RNG.nextInt(1, 101))
+                .moveSlider("6", Methods.RNG.nextInt(1, 101));
     }
 
     @Test(description = "HTML alert messages")
