@@ -1,0 +1,4 @@
+# Ignore sites folder in Git Languages
+.sites/** linguist-vendored
+# Ignore html files (reports)
+*.html linguist-detectable=false
